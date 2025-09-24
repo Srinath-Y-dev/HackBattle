@@ -1,175 +1,1470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FinCargo - Premium Financial Dashboard</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-  <style>
-    /* --- Your styles remain unchanged --- */
-    /* Paste all your existing CSS here */
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinCargo - Premium Financial Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 15%, #16213e 30%, #0f1419 50%, #2d1b69 70%, #11998e 100%);
+            background-size: 400% 400%, 300% 300%, 500% 500%, 400% 400%;
+            animation: cosmicFlow 20s ease infinite, backgroundPulse 8s ease-in-out infinite alternate;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes cosmicFlow {
+            0%, 100% { 
+                background-position: 0% 50%, 100% 50%, 0% 100%, 0% 50%; 
+            }
+            25% { 
+                background-position: 100% 100%, 0% 100%, 50% 0%, 50% 0%; 
+            }
+            50% { 
+                background-position: 100% 50%, 50% 0%, 100% 50%, 100% 50%; 
+            }
+            75% { 
+                background-position: 0% 0%, 100% 50%, 0% 0%, 0% 100%; 
+            }
+        }
+
+        @keyframes backgroundPulse {
+            0% { filter: brightness(1) saturate(1.2) hue-rotate(0deg); }
+            100% { filter: brightness(1.1) saturate(1.4) hue-rotate(10deg); }
+        }
+
+        /* Enhanced floating particles with multiple types */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            filter: blur(0.5px);
+        }
+
+        .particle:nth-child(odd) {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(0, 255, 135, 0.8), rgba(0, 255, 135, 0.2));
+            box-shadow: 0 0 6px rgba(0, 255, 135, 0.6);
+        }
+
+        .particle:nth-child(even) {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(96, 239, 255, 0.8), rgba(96, 239, 255, 0.2));
+            box-shadow: 0 0 8px rgba(96, 239, 255, 0.6);
+        }
+
+        .particle:nth-child(3n) {
+            width: 2px;
+            height: 2px;
+            background: radial-gradient(circle, rgba(255, 107, 255, 0.9), rgba(255, 107, 255, 0.3));
+            box-shadow: 0 0 4px rgba(255, 107, 255, 0.7);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) rotate(324deg) scale(1);
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Game-like grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.1; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Enhanced Header with game-like HUD */
+        .header {
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(96, 239, 255, 0.1)),
+                rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px) saturate(1.5);
+            border-radius: 25px;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, rgba(0, 255, 135, 0.4), rgba(96, 239, 255, 0.4), rgba(255, 107, 255, 0.4)) 1;
+            padding: 25px 35px;
+            margin-bottom: 35px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 60px rgba(0, 255, 135, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 135, 0.1), transparent);
+            animation: headerRotate 8s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes headerRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 0 80px rgba(0, 255, 135, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff87, #60efff, #ff6bff, #feca57, #00ff87);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoFlow 4s ease infinite, logoGlow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 40px rgba(0, 255, 135, 0.5);
+            position: relative;
+        }
+
+        @keyframes logoFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 15px rgba(0, 255, 135, 0.6)); }
+            100% { filter: drop-shadow(0 0 30px rgba(96, 239, 255, 0.8)); }
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: white;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-pic {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00ff87, #60efff, #ff6bff, #feca57, #00ff87);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            animation: profileSpin 6s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0, 255, 135, 0.4);
+        }
+
+        .profile-pic::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-pic i {
+            z-index: 1;
+            color: #00ff87;
+        }
+
+        @keyframes profileSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        /* Main Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        /* Enhanced Glass Cards with gaming aesthetics */
+        .glass-card {
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 135, 0.1), rgba(96, 239, 255, 0.08)),
+                rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px) saturate(1.8);
+            border-radius: 25px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            padding: 35px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: conic-gradient(from 0deg, rgba(0, 255, 135, 0.5), rgba(96, 239, 255, 0.5), rgba(255, 107, 255, 0.5), transparent);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: subtract;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.8s ease;
+            opacity: 0;
+        }
+
+        .glass-card:hover::before {
+            opacity: 1;
+            animation: borderGlow 2s ease infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .glass-card:hover::after {
+            animation: shine 2s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .glass-card:hover {
+            transform: translateY(-15px) scale(1.03) rotateX(5deg);
+            box-shadow: 
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                0 0 100px rgba(0, 255, 135, 0.3);
+        }
+
+        /* Enhanced Financial Score Card */
+        .score-card {
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .score-value {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin: 25px 0;
+            background: conic-gradient(from 0deg, #00ff87, #60efff, #ff6bff, #00ff87);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: scoreFlow 3s ease infinite, scoreGlow 2s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        @keyframes scoreFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes scoreGlow {
+            0% { 
+                filter: drop-shadow(0 0 15px rgba(0, 255, 135, 0.6)) drop-shadow(0 0 25px rgba(96, 239, 255, 0.4)); 
+            }
+            100% { 
+                filter: drop-shadow(0 0 25px rgba(0, 255, 135, 0.9)) drop-shadow(0 0 40px rgba(96, 239, 255, 0.6)); 
+            }
+        }
+
+        .score-ring {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00ff87 0deg, #60efff 120deg, #ff6bff 240deg, #00ff87 360deg);
+            animation: ringRotate 6s linear infinite, ringPulse 3s ease-in-out infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 
+                0 0 50px rgba(0, 255, 135, 0.4),
+                inset 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .ring::before {
+            content: '';
+            width: 75%;
+            height: 75%;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle, rgba(0, 0, 0, 0.8) 30%, rgba(0, 0, 0, 0.6) 70%),
+                rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes ringRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes ringPulse {
+            0% { transform: scale(1); box-shadow: 0 0 50px rgba(0, 255, 135, 0.4); }
+            100% { transform: scale(1.05); box-shadow: 0 0 70px rgba(0, 255, 135, 0.6); }
+        }
+
+        /* Enhanced Stats Cards */
+        .stat-item {
+            color: white;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 255, 135, 0.5);
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.2);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ff87, #60efff, #ff6bff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: valueShimmer 3s ease infinite;
+        }
+
+        @keyframes valueShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .stat-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 12px;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-bar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: barShine 2s ease infinite;
+        }
+
+        @keyframes barShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff87, #60efff, #ff6bff);
+            border-radius: 6px;
+            animation: fillUp 3s ease-out forwards, fillGlow 2s ease-in-out infinite alternate;
+            transform-origin: left;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 135, 0.5);
+        }
+
+        @keyframes fillUp {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes fillGlow {
+            0% { box-shadow: 0 0 15px rgba(0, 255, 135, 0.5); }
+            100% { box-shadow: 0 0 25px rgba(0, 255, 135, 0.8), 0 0 35px rgba(96, 239, 255, 0.4); }
+        }
+
+        /* Enhanced Chatbot Section */
+        .chatbot-section {
+            grid-column: span 2;
+            margin-top: 35px;
+        }
+
+        .chat-container {
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: 
+                linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)),
+                rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px 22px;
+            border-radius: 25px;
+            max-width: 80%;
+            animation: messageSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes messageSlide {
+            from { transform: translateX(-30px) translateY(20px); opacity: 0; }
+            to { transform: translateX(0) translateY(0); opacity: 1; }
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
+            color: white;
+            margin-left: auto;
+            text-align: right;
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(102, 126, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .bot-message {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.8), rgba(245, 87, 108, 0.8));
+            color: white;
+            border: 1px solid rgba(240, 147, 251, 0.4);
+            box-shadow: 
+                0 10px 30px rgba(240, 147, 251, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #00ff87;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 135, 0.4),
+                inset 0 0 20px rgba(0, 255, 135, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .send-btn {
+            padding: 18px 25px;
+            background: linear-gradient(45deg, #00ff87, #60efff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.15) translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 255, 135, 0.5);
+            background: linear-gradient(45deg, #60efff, #ff6bff);
+        }
+
+        /* Enhanced Goals Section */
+        .goals-section {
+            grid-column: span 1;
+            margin-top: 35px;
+        }
+
+        .goal-item {
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+                rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goal-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 135, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .goal-item:hover::before {
+            left: 100%;
+        }
+
+        .goal-item:hover {
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 135, 0.15), rgba(96, 239, 255, 0.1)),
+                rgba(255, 255, 255, 0.08);
+            transform: translateX(15px) scale(1.02);
+            border-color: #00ff87;
+            box-shadow: 
+                0 15px 40px rgba(0, 255, 135, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .goal-title {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #00ff87;
+            font-size: 1.1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
+        }
+
+        .goal-progress {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            color: #60efff;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff87, #60efff, #ff6bff);
+            border-radius: 4px;
+            transition: width 3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 255, 135, 0.6);
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s ease infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Enhanced Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 18px 35px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff6bff);
+            background-size: 300% 300%;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            animation: buttonFlow 4s ease infinite;
+        }
+
+        @keyframes buttonFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.6s ease, height 0.6s ease;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .action-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 25px 50px rgba(255, 107, 107, 0.6),
+                0 0 50px rgba(255, 107, 107, 0.4);
+        }
+
+        .action-btn span, .action-btn i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(45deg, #667eea, #764ba2, #60efff);
+            background-size: 300% 300%;
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .action-btn.secondary:hover {
+            box-shadow: 
+                0 25px 50px rgba(102, 126, 234, 0.6),
+                0 0 50px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Enhanced Card Headers */
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: white;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            margin-right: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #00ff87, #60efff);
+            position: relative;
+            animation: iconPulse 3s ease-in-out infinite;
+            box-shadow: 
+                0 10px 25px rgba(0, 255, 135, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 15px;
+            background: conic-gradient(from 0deg, #00ff87, #60efff, #ff6bff, #00ff87);
+            z-index: -1;
+            animation: iconBorder 4s linear infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes iconBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffffff, #00ff87);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Game-like visual enhancements */
+        .glass-card:nth-child(1) { animation-delay: 0.1s; }
+        .glass-card:nth-child(2) { animation-delay: 0.2s; }
+        .glass-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
+        }
+
+        .glass-card {
+            animation: cardEntrance 1s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        /* Enhanced scrollbar for chat */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00ff87, #60efff);
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 255, 135, 0.5);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #60efff, #ff6bff);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+            .chatbot-section {
+                grid-column: span 2;
+            }
+            .goals-section {
+                grid-column: span 2;
+            }
+            .action-buttons {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .chatbot-section,
+            .goals-section {
+                grid-column: span 1;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .logo {
+                font-size: 2.2rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .action-btn {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation Enhancement */
+        .loading {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            border-top-color: #00ff87;
+            animation: loadingSpin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            box-shadow: 0 0 20px rgba(0, 255, 135, 0.3);
+        }
+
+        @keyframes loadingSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Achievement notification style */
+        .achievement {
+            position: fixed;
+            top: 100px;
+            right: -400px;
+            background: linear-gradient(135deg, rgba(0, 255, 135, 0.9), rgba(96, 239, 255, 0.9));
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 255, 135, 0.4);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .achievement.show {
+            right: 30px;
+        }
+
+        /* Holographic text effect for special elements */
+        .holographic {
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5, #ffbe0b, #ff006e);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: holographicShift 3s ease infinite;
+        }
+
+        @keyframes holographicShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        /* Energy orb effect for interactive elements */
+        .energy-orb {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .energy-orb::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 255, 135, 0.3), transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbPulse 4s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .energy-orb:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes orbPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+
+        /* Neon glow effect for borders */
+        .neon-glow {
+            position: relative;
+        }
+
+        .neon-glow::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #00ff87, #60efff, #ff6bff, #feca57);
+            opacity: 0;
+            z-index: -1;
+            animation: neonRotate 4s linear infinite;
+            transition: opacity 0.3s ease;
+        }
+
+        .neon-glow:hover::before {
+            opacity: 0.7;
+            filter: blur(8px);
+        }
+
+        @keyframes neonRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="particles" id="particles"></div>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <div class="header-content">
-        <div class="logo">FinCargo</div>
-        <div class="user-profile">
-          <div class="profile-pic"><i class="fas fa-user"></i></div>
-          <div>
-            <div style="font-weight: bold;">Welcome back, Alex!</div>
-            <div style="opacity: 0.7; font-size: 0.9rem;">Premium Member</div>
-          </div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header energy-orb">
+            <div class="header-content">
+                <div class="logo holographic">FinCargo</div>
+                <div class="user-profile neon-glow">
+                    <div class="profile-pic">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: bold;">Welcome back, Alex!</div>
+                        <div style="opacity: 0.7; font-size: 0.9rem;">Premium Member</div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Financial Score -->
+            <div class="glass-card score-card energy-orb neon-glow">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-title">Financial Score</div>
+                </div>
+                <div class="score-ring">
+                    <div class="ring"></div>
+                </div>
+                <div class="score-value holographic" id="scoreValue">750</div>
+                <div style="opacity: 0.8;">Excellent Credit</div>
+            </div>
+
+            <!-- Income & Assets -->
+            <div class="glass-card energy-orb neon-glow">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="card-title">Income & Assets</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Monthly Income</div>
+                    <div class="stat-value">$8,500</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Assets</div>
+                    <div class="stat-value">$285K</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 70%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debts & Savings -->
+            <div class="glass-card energy-orb neon-glow">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="card-title">Savings & Debts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Savings</div>
+                    <div class="stat-value">$45K</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Outstanding Debts</div>
+                    <div class="stat-value">$12K</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="width: 25%; background: linear-gradient(90deg, #ff6b6b, #feca57);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary Grid -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+            <!-- Chatbot Section -->
+            <div class="glass-card chatbot-section energy-orb neon-glow">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="card-title">Financial Assistant</div>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            Hi! I'm your personal financial assistant. How can I help you optimize your finances today?
+                        </div>
+                        <div class="message user-message">
+                            How can I improve my credit score?
+                        </div>
+                        <div class="message bot-message">
+                            Great question! Based on your profile, I recommend: 1) Pay down your credit card balance to under 30% utilization, 2) Make all payments on time, 3) Consider a credit limit increase. Would you like specific strategies?
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" placeholder="Ask me about budgeting, investments, or debt management..." id="chatInput">
+                        <button class="send-btn energy-orb" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Section -->
+            <div class="glass-card goals-section energy-orb neon-glow">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="card-title">Financial Goals</div>
+                </div>
+                
+                <div class="goal-item energy-orb" onclick="updateGoal(this, 65)">
+                    <div class="goal-title">🏠 Build a House</div>
+                    <div class="goal-progress">Target: 5 years • Progress: 65%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+
+                <div class="goal-item energy-orb" onclick="updateGoal(this, 40)">
+                    <div class="goal-title">🚗 New Car Fund</div>
+                    <div class="goal-progress">Target: 2 years • Progress: 40%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 40%;"></div>
+                    </div>
+                </div>
+
+                <div class="goal-item energy-orb" onclick="updateGoal(this, 80)">
+                    <div class="goal-title">🎓 Education Fund</div>
+                    <div class="goal-progress">Target: 3 years • Progress: 80%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="goal-item energy-orb" onclick="updateGoal(this, 25)">
+                    <div class="goal-title">✈ Dream Vacation</div>
+                    <div class="goal-progress">Target: 1 year • Progress: 25%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 25%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn energy-orb" onclick="calculateScore()">
+                <i class="fas fa-calculator"></i> <span>Recalculate Score</span>
+            </button>
+            <button class="action-btn secondary energy-orb" onclick="generateReport()">
+                <i class="fas fa-file-alt"></i> <span>Generate Report</span>
+            </button>
+            <button class="action-btn energy-orb" onclick="addGoal()">
+                <i class="fas fa-plus"></i> <span>Add New Goal</span>
+            </button>
+        </div>
     </div>
 
-    <!-- Dashboard Grid -->
-    <!-- (Keep your original dashboard grid and other sections unchanged) -->
-
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-      <button class="action-btn" onclick="calculateScore()">
-        <i class="fas fa-calculator"></i> Recalculate Score
-      </button>
-      <button class="action-btn secondary" onclick="generateReport()">
-        <i class="fas fa-file-alt"></i> Generate Report
-      </button>
-      <button class="action-btn" onclick="addGoal()">
-        <i class="fas fa-plus"></i> Add New Goal
-      </button>
-    </div>
-  </div>
-
-  <script>
-    // Create floating particles
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        particlesContainer.appendChild(particle);
-      }
-    }
-
-    // Animate score counter
-    function animateScore() {
-      const scoreElement = document.getElementById('scoreValue');
-      let currentScore = 0;
-      const targetScore = 750;
-      const increment = targetScore / 100;
-      const counter = setInterval(() => {
-        currentScore += increment;
-        if (currentScore >= targetScore) {
-          currentScore = targetScore;
-          clearInterval(counter);
+    <script>
+        // Enhanced particle system with different types and behaviors
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 80; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                
+                // Add random horizontal drift
+                particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+                
+                particlesContainer.appendChild(particle);
+            }
         }
-        scoreElement.textContent = Math.floor(currentScore);
-      }, 30);
-    }
 
-    // Send chat message
-    function sendMessage() {
-      const chatInput = document.getElementById('chatInput');
-      const chatMessages = document.getElementById('chatMessages');
-      const message = chatInput.value.trim();
+        // Enhanced score animation with particle burst effect
+        function animateScore() {
+            const scoreElement = document.getElementById('scoreValue');
+            let currentScore = 0;
+            const targetScore = 750;
+            const increment = targetScore / 120;
+            
+            const counter = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(counter);
+                    createScoreBurst();
+                }
+                scoreElement.textContent = Math.floor(currentScore);
+            }, 25);
+        }
 
-      if (message) {
-        const userMessage = document.createElement('div');
-        userMessage.classList.add('message', 'user-message');
-        userMessage.textContent = message;
-        chatMessages.appendChild(userMessage);
+        // Create particle burst effect when score animation completes
+        function createScoreBurst() {
+            const scoreCard = document.querySelector('.score-card');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = '#00ff87';
+                particle.style.borderRadius = '50%';
+                particle.style.boxShadow = '0 0 10px #00ff87';
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.animation = `scoreBurst 1.5s ease-out forwards`;
+                particle.style.setProperty('--angle', Math.random() * 360 + 'deg');
+                particle.style.setProperty('--distance', Math.random() * 100 + 50 + 'px');
+                
+                scoreCard.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
 
-        chatInput.value = '';
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Add score burst keyframes dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes scoreBurst {
+                0% {
+                    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance)) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
 
+        // Enhanced chat functionality with typing indicator
+        function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const message = chatInput.value.trim();
+            
+            if (message) {
+                // Add user message with enhanced animation
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('message', 'user-message');
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+                
+                chatInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.classList.add('message', 'bot-message');
+                typingIndicator.innerHTML = '<div class="loading"></div> AI is thinking...';
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate bot response with enhanced delay
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('message', 'bot-message');
+                    botMessage.innerHTML = generateBotResponse(message);
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // Show achievement notification occasionally
+                    if (Math.random() > 0.7) {
+                        showAchievement();
+                    }
+                }, 1500);
+            }
+        }
+
+        function generateBotResponse(userMessage) {
+            const responses = [
+                "🎯 Excellent question! Based on your financial profile, I'd recommend focusing on debt reduction first. This could boost your score by 50+ points!",
+                "💡 I can help you create a personalized budget plan. Your current savings rate is excellent - you're in the top 20% of users!",
+                "📈 Consider diversifying your investment portfolio. I see potential for 15% annual growth with your risk profile!",
+                "⭐ Your credit score improvement plan is on track. Keep making those on-time payments - you're crushing it!",
+                "🛡️ Emergency fund tip: Aim for 6 months of expenses. You're currently at 4.2 months - great progress! Almost there!",
+                "🚀 Pro tip: Your debt-to-income ratio is healthy. Consider increasing your retirement contributions by 2% for maximum tax benefits!"
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Show achievement notification
+        function showAchievement() {
+            const achievements = [
+                "🏆 Achievement Unlocked: Financial Guru!",
+                "⚡ Power User: 5 consecutive days active!",
+                "💎 Credit Master: Score increased this month!",
+                "🎯 Goal Crusher: 80% progress on major goal!",
+                "🌟 Savings Champion: Emergency fund growing!"
+            ];
+            
+            const notification = document.createElement('div');
+            notification.classList.add('achievement');
+            notification.textContent = achievements[Math.floor(Math.random() * achievements.length)];
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 4000);
+        }
+
+        // Enhanced goal interaction with celebration effects
+        function updateGoal(element, progress) {
+            const progressFill = element.querySelector('.progress-fill');
+            const newProgress = Math.min(progress + 5, 100);
+            progressFill.style.width = newProgress + '%';
+            
+            // Update progress text
+            const progressText = element.querySelector('.goal-progress');
+            progressText.textContent = progressText.textContent.replace(/\d+%/, newProgress + '%');
+            
+            // Enhanced celebration effect
+            element.style.transform = 'scale(1.1) rotateY(5deg)';
+            element.style.boxShadow = '0 20px 60px rgba(0, 255, 135, 0.5)';
+            
+            setTimeout(() => {
+                element.style.transform = '';
+                element.style.boxShadow = '';
+            }, 300);
+            
+            // Show achievement for major milestones
+            if (newProgress % 25 === 0) {
+                showAchievement();
+            }
+        }
+
+        // Enhanced action button functions
+        function calculateScore() {
+            const scoreValue = document.getElementById('scoreValue');
+            const button = event.target.closest('.action-btn');
+            
+            scoreValue.textContent = '...';
+            button.style.pointerEvents = 'none';
+            button.innerHTML = '<div class="loading"></div> Calculating...';
+            
+            setTimeout(() => {
+                const newScore = Math.floor(Math.random() * 50) + 725;
+                scoreValue.textContent = newScore;
+                
+                // Reset button
+                button.style.pointerEvents = '';
+                button.innerHTML = '<i class="fas fa-calculator"></i> <span>Recalculate Score</span>';
+                
+                // Enhanced celebration animation
+                scoreValue.style.animation = 'none';
+                setTimeout(() => {
+                    scoreValue.style.animation = 'scoreGlow 2s ease-in-out infinite alternate';
+                    createScoreBurst();
+                }, 50);
+                
+                showAchievement();
+            }, 2500);
+        }
+
+        function generateReport() {
+            const button = event.target.closest('.action-btn');
+            button.innerHTML = '<div class="loading"></div> <span>Generating...</span>';
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-file-alt"></i> <span>Generate Report</span>';
+                alert('📊 Financial Report Generated!\n\n✅ Credit Score: Excellent (750)\n✅ Debt-to-Income: Healthy (14%)\n✅ Savings Rate: Above Average (25%)\n✅ Investment Diversity: Good\n\n📈 Recommendation: Consider increasing retirement contributions by 2%');
+                showAchievement();
+            }, 2000);
+        }
+
+        function addGoal() {
+            const goalTypes = ['🎯 Emergency Fund', '🏖️ Retirement Planning', '📱 Tech Upgrade', '🎪 Entertainment Budget', '🏥 Health Savings', '🎨 Creative Projects'];
+            const randomGoal = goalTypes[Math.floor(Math.random() * goalTypes.length)];
+            
+            const button = event.target.closest('.action-btn');
+            button.innerHTML = '<div class="loading"></div> <span>Adding Goal...</span>';
+            
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-plus"></i> <span>Add New Goal</span>';
+                alert(`🎉 New Goal Added: ${randomGoal}\n\nYour personalized action plan has been created! Track your progress in the Goals section.`);
+                showAchievement();
+            }, 1500);
+        }
+
+        // Enter key support for chat
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize enhanced features
+        createParticles();
+        setTimeout(animateScore, 1000);
+
+        // Enhanced 3D tilt effect for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px) scale(1.03)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Auto-show achievement on load
         setTimeout(() => {
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('message', 'bot-message');
-          botMessage.innerHTML = generateBotResponse(message);
-          chatMessages.appendChild(botMessage);
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 1000);
-      }
-    }
+            showAchievement();
+        }, 3000);
 
-    function generateBotResponse(userMessage) {
-      const responses = [
-        "That's a great question! Based on your financial profile, I'd recommend focusing on debt reduction first.",
-        "I can help you create a personalized budget plan. Your current savings rate is excellent!",
-        "Consider diversifying your investment portfolio. Would you like me to suggest some options?",
-        "Your credit score improvement plan is on track. Keep making those on-time payments!",
-        "Emergency fund tip: Aim for 6 months of expenses. You're currently at 4.2 months - great progress!"
-      ];
-      return responses[Math.floor(Math.random() * responses.length)];
-    }
-
-    document.getElementById('chatInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    function updateGoal(element, progress) {
-      const progressFill = element.querySelector('.progress-fill');
-      const newProgress = Math.min(progress + 5, 100);
-      progressFill.style.width = newProgress + '%';
-      const progressText = element.querySelector('.goal-progress');
-      progressText.textContent = progressText.textContent.replace(/\d+%/, newProgress + '%');
-      element.style.transform = 'scale(1.05)';
-      setTimeout(() => {
-        element.style.transform = '';
-      }, 200);
-    }
-
-    function calculateScore() {
-      const scoreValue = document.getElementById('scoreValue');
-      scoreValue.textContent = '...';
-      setTimeout(() => {
-        const newScore = Math.floor(Math.random() * 50) + 725;
-        scoreValue.textContent = newScore;
-        scoreValue.style.animation = 'none';
-        setTimeout(() => {
-          scoreValue.style.animation = 'scoreGlow 2s ease-in-out infinite alternate';
-        }, 50);
-      }, 2000);
-    }
-
-    function generateReport() {
-      alert('📊 Financial Report Generated!\n\n✅ Credit Score: Excellent (750)\n✅ Debt-to-Income: Healthy (14%)\n✅ Savings Rate: Above Average (25%)\n✅ Investment Diversity: Good\n\n📈 Recommendation: Consider increasing retirement contributions by 2%');
-    }
-
-    function addGoal() {
-      const goalTypes = ['🎯 Emergency Fund', '🏖 Retirement Planning', '📱 Tech Upgrade', '🎪 Entertainment Budget'];
-      const randomGoal = goalTypes[Math.floor(Math.random() * goalTypes.length)];
-      alert(`🎉 New Goal Added: ${randomGoal}\n\nYour personalized action plan has been created!`);
-    }
-
-    // Initialize
-    createParticles();
-    setTimeout(animateScore, 1000);
-
-    // Hover effects for cards
-    document.querySelectorAll('.glass-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
-      });
-    });
-  </script>
+        // Add dynamic background music visualization (visual only)
+        setInterval(() => {
+            document.documentElement.style.setProperty('--beat-intensity', Math.random() * 0.5 + 0.5);
+        }, 200);
+    </script>
 </body>
 </html>
