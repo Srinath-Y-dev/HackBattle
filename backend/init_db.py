@@ -1,34 +1,65 @@
+import pandas as pd
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 import models
+from datetime import datetime
 
-# Create the tables
+# This creates all tables (User, Goal, and now Transaction)
 models.Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
 
-# Check if user already exists
-user = db.query(models.User).filter(models.User.id == 1).first()
+# --- Create Personas as Users if they don't exist ---
+personas = ["Priya Sharma", "Rohan Verma", "Anjali Mehta", "Vikram Singh", "Sunita Patel"]
+user_map = {} # To hold the user IDs for each persona name
 
-if not user:
-    # Create a sample user
-    db_user = models.User(id=1, username="alex", full_name="Alex")
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    print(f"User '{db_user.full_name}' created.")
+for idx, name in enumerate(personas, 1):
+    user = db.query(models.User).filter(models.User.full_name == name).first()
+    if not user:
+        user = models.User(id=idx, username=name.lower().split()[0], full_name=name)
+        db.add(user)
+        print(f"User '{user.full_name}' created.")
+    user_map[name] = user.id
 
-    # Create some initial goals for the user
-    goals_to_add = [
-        models.Goal(name="Build a House", category="🏠 Housing", target_amount=50000, current_amount=32500, timeframe="5 years", owner_id=1),
-        models.Goal(name="New Car Fund", category="🚗 Transportation", target_amount=20000, current_amount=8000, timeframe="2 years", owner_id=1),
-        models.Goal(name="Education Fund", category="🎓 Education", target_amount=15000, current_amount=12000, timeframe="3 years", owner_id=1),
-    ]
-    db.add_all(goals_to_add)
-    db.commit()
-    print(f"{len(goals_to_add)} initial goals created.")
+db.commit()
 
+# --- Import CSV Data ---
+# Check if we have already imported transactions to avoid duplicates
+transaction_count = db.query(models.Transaction).count()
+if transaction_count == 0:
+    print("No transactions found. Importing from datasets.csv...")
+    try:
+        # Assumes datasets.csv is in the same directory as this script for simplicity
+        df = pd.read_csv("datasets.csv")
+
+        for index, row in df.iterrows():
+            transaction_date = datetime.strptime(row['date'], '%Y-%m-%d').date()
+            
+            # Find the owner_id from our user_map
+            owner_id = user_map.get(row['persona_name'])
+
+            if owner_id:
+                transaction = models.Transaction(
+                    transaction_id=row['transaction_id'],
+                    date=transaction_date,
+                    persona_name=row['persona_name'],
+                    description=row['description'],
+                    category=row['category'],
+                    type=row['type'],
+                    amount=row['amount'],
+                    owner_id=owner_id
+                )
+                db.add(transaction)
+        
+        db.commit()
+        print(f"Successfully imported {len(df)} transactions.")
+    except FileNotFoundError:
+        print("Error: datasets.csv not found. Please place it in the backend directory.")
+    except Exception as e:
+        db.rollback()
+        print(f"An error occurred during import: {e}")
 else:
-    print(f"User '{user.full_name}' already exists. No new data added.")
+    print(f"Database already contains {transaction_count} transactions. Skipping import.")
+
 
 db.close()
