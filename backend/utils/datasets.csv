@@ -1,0 +1,171 @@
+date,transaction_id,persona_name,description,category,type,amount
+2025-09-24,txn_a1b2c3d4,Priya Sharma,Zomato Order,Food,debit,-450.00
+2025-09-24,txn_e5f6g7h8,Rohan Verma,Paytm to Friend,Transfers,debit,-1000.00
+2025-09-23,txn_i9j0k1l2,Anjali Mehta,College Canteen,Food,debit,-120.00
+2025-09-22,txn_m3n4o5p6,Priya Sharma,Upwork Project Payment,Income,credit,45000.00
+2025-09-22,txn_q7r8s9t0,Vikram Singh,AWS Bill,Business,debit,-8500.00
+2025-09-21,txn_u1v2w3x4,Rohan Verma,Myntra Shopping,Shopping,debit,-3200.00
+2025-09-21,txn_y5z6a7b8,Sunita Patel,Pharmacy Bill,Health,debit,-780.00
+2025-09-20,txn_c9d0e1f2,Priya Sharma,BigBasket Groceries,Housing,debit,-3800.50
+2025-09-20,txn_g3h4i5j6,Anjali Mehta,Pocket Money from Parents,Income,credit,5000.00
+2025-09-19,txn_k7l8m9n0,Rohan Verma,Ola Ride to Office,Transport,debit,-280.00
+2025-09-18,txn_o1p2q3r4,Vikram Singh,Lunch with Investors,Business,debit,-4200.00
+2025-09-17,txn_s5t6u7v8,Priya Sharma,Coffee with Client,Food,debit,-650.00
+2025-09-16,txn_w9x0y1z2,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-09-15,txn_a3b4c5d6,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-09-15,txn_e7f8g9h0,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-09-15,txn_i1j2k3l4,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-09-15,txn_m5n6o7p8,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-09-14,txn_q9r0s1t2,Rohan Verma,BookMyShow Tickets,Entertainment,debit,-1100.00
+2025-09-12,txn_u3v4w5x6,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-09-12,txn_y7z8a9b0,Sunita Patel,Electricity Bill,Utilities,debit,-1250.00
+2025-09-11,txn_a2b3c4d5,Priya Sharma,Adobe Creative Cloud,Utilities,debit,-2399.00
+2025-09-10,txn_e6f7g8h9,Anjali Mehta,Stationery Purchase,Education,debit,-450.00
+2025-09-08,txn_i0j1k2l3,Vikram Singh,Salary to Interns,Business,debit,-40000.00
+2025-09-07,txn_m4n5o6p7,Priya Sharma,Graphic Design Asset Purchase,Shopping,debit,-2500.00
+2025-09-05,txn_q8r9s0t1,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-09-05,txn_u2v3w4x5,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-09-04,txn_y6z7a8b9,Sunita Patel,Local Market Groceries,Housing,debit,-1800.00
+2025-09-02,txn_c0d1e2f3,Priya Sharma,Upwork Project Payment,Income,credit,22000.00
+2025-09-01,txn_g4h5i6j7,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-09-01,txn_k8l9m0n1,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-08-30,txn_o2p3q4r5,Anjali Mehta,Weekend Outing,Entertainment,debit,-800.00
+2025-08-28,txn_s6t7u8v9,Priya Sharma,Client Project Payment,Income,credit,30000.00
+2025-08-27,txn_w0x1y2z3,Rohan Verma,Amazon Purchase,Shopping,debit,-1800.00
+2025-08-26,txn_a4b5c6d7,Sunita Patel,Donation,Transfers,debit,-500.00
+2025-08-25,txn_e8f9g0h1,Rohan Verma,Flight to Delhi,Transport,debit,-6500.00
+2025-08-24,txn_i2j3k4l5,Vikram Singh,Domain Name Renewal,Business,debit,-1500.00
+2025-08-22,txn_m6n7o8p9,Priya Sharma,Zomato Order,Food,debit,-550.00
+2025-08-20,txn_q0r1s2t3,Anjali Mehta,Books Purchase,Education,debit,-1200.00
+2025-08-18,txn_u4v5w6x7,Rohan Verma,Swiggy Order,Food,debit,-480.00
+2025-08-16,txn_y8z9a0b1,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-08-15,txn_c2d3e4f5,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-08-15,txn_g6h7i8j9,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-08-15,txn_k0l1m2n3,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-08-15,txn_o4p5q6r7,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-08-14,txn_s8t9u0v1,Priya Sharma,Upwork Project Payment,Income,credit,65000.00
+2025-08-12,txn_w2x3y4z5,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-08-12,txn_a6b7c8d9,Sunita Patel,Electricity Bill,Utilities,debit,-1150.00
+2025-08-10,txn_e0f1g2h3,Anjali Mehta,Birthday Party Expense,Entertainment,debit,-2500.00
+2025-08-08,txn_i4j5k6l7,Vikram Singh,Seed Funding Round,Income,credit,5000000.00
+2025-08-05,txn_m8n9o0p1,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-08-05,txn_q2r3s4t5,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-08-04,txn_u6v7w8x9,Sunita Patel,Local Market Groceries,Housing,debit,-2100.00
+2025-08-02,txn_y0z1a2b3,Priya Sharma,Art Supplies,Shopping,debit,-4200.00
+2025-08-01,txn_c4d5e6f7,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-08-01,txn_g8h9i0j1,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-07-30,txn_k2l3m4n5,Anjali Mehta,Train Ticket Home,Transport,debit,-1500.00
+2025-07-29,txn_o6p7q8r9,Rohan Verma,Diwali Shopping,Shopping,debit,-15000.00
+2025-07-28,txn_s0t1u2v3,Sunita Patel,Gift to Grandchild,Transfers,debit,-2000.00
+2025-07-27,txn_w4x5y6z7,Priya Sharma,Diwali Bonus from Client,Income,credit,25000.00
+2025-07-26,txn_a8b9c0d1,Vikram Singh,Team Dinner,Business,debit,-12000.00
+2025-07-25,txn_e2f3g4h5,Rohan Verma,Diwali Bonus,Income,credit,25000.00
+2025-07-24,txn_i6j7k8l9,Anjali Mehta,Zomato with friends,Food,debit,-700.00
+2025-07-22,txn_m0n1o2p3,Priya Sharma,Swiggy Instamart,Housing,debit,-1200.00
+2025-07-20,txn_q4r5s6t7,Rohan Verma,Medical Checkup,Health,debit,-3000.00
+2025-07-18,txn_u8v9w0x1,Vikram Singh,New Laptop Purchase,Business,debit,-125000.00
+2025-07-16,txn_y2z3a4b5,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-07-15,txn_c6d7e8f9,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-07-15,txn_g0h1i2j3,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-07-15,txn_k4l5m6n7,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-07-15,txn_o8p9q0r1,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-07-12,txn_s2t3u4v5,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-07-12,txn_w6x7y8z9,Sunita Patel,Electricity Bill,Utilities,debit,-1300.00
+2025-07-10,txn_a0b1c2d3,Priya Sharma,Upwork Project Payment,Income,credit,85000.00
+2025-07-09,txn_e4f5g6h7,Anjali Mehta,Photocopying notes,Education,debit,-250.00
+2025-07-07,txn_i8j9k0l1,Rohan Verma,Weekend trip,Entertainment,debit,-8000.00
+2025-07-05,txn_m2n3o4p5,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-07-05,txn_q6r7s8t9,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-07-04,txn_u0v1w2x3,Sunita Patel,Local Market Groceries,Housing,debit,-1950.00
+2025-07-02,txn_y4z5a6b7,Vikram Singh,Office Supplies,Business,debit,-3500.00
+2025-07-01,txn_c8d9e0f1,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-07-01,txn_g2h3i4j5,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-06-30,txn_k6l7m8n9,Priya Sharma,Client Payment,Income,credit,20000.00
+2025-06-28,txn_o0p1q2r3,Anjali Mehta,End of Sem Party,Entertainment,debit,-1500.00
+2025-06-26,txn_s4t5u6v7,Rohan Verma,Gym Membership,Health,debit,-2500.00
+2025-06-25,txn_w8x9y0z1,Sunita Patel,Temple Donation,Transfers,debit,-1001.00
+2025-06-23,txn_a1b3c5d7,Vikram Singh,Google Ads Campaign,Business,debit,-15000.00
+2025-06-22,txn_e5f7g9h1,Priya Sharma,Zomato Order,Food,debit,-600.00
+2025-06-20,txn_i9j1k3l5,Rohan Verma,Car Service,Transport,debit,-5500.00
+2025-06-18,txn_m3n5o7p9,Anjali Mehta,New Headphones,Shopping,debit,-1999.00
+2025-06-16,txn_q7r9s1t3,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-06-15,txn_u1v3w5x7,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-06-15,txn_y5z7a9b1,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-06-15,txn_c9d1e3f5,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-06-15,txn_g3h5i7j9,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-06-12,txn_k7l9m1n3,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-06-12,txn_o1p3q5r7,Sunita Patel,Electricity Bill,Utilities,debit,-1200.00
+2025-06-10,txn_s5t7u9v1,Priya Sharma,Upwork Project Payment,Income,credit,72000.00
+2025-06-08,txn_w9x1y3z5,Rohan Verma,BigBasket Groceries,Housing,debit,-6200.00
+2025-06-05,txn_a3b5c7d9,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-06-05,txn_e7f9g1h3,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-06-03,txn_i1j3k5l7,Vikram Singh,Client Lunch,Business,debit,-3800.00
+2025-06-01,txn_m5n7o9p1,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-06-01,txn_q9r1s3t5,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-05-29,txn_u3v5w7x9,Priya Sharma,Client Payment,Income,credit,15000.00
+2025-05-28,txn_y7z9a1b3,Anjali Mehta,Library Fee,Education,debit,-500.00
+2025-05-27,txn_c1d3e5f7,Rohan Verma,Amazon Prime Subscription,Entertainment,debit,-1499.00
+2025-05-25,txn_g5h7i9j1,Sunita Patel,Medical Expense,Health,debit,-2500.00
+2025-05-24,txn_k9l1m3n5,Vikram Singh,Legal Consultation,Business,debit,-10000.00
+2025-05-22,txn_o3p5q7r9,Priya Sharma,Zomato Gold,Entertainment,debit,-999.00
+2025-05-20,txn_s7t9u1v3,Rohan Verma,Dinner with family,Food,debit,-3500.00
+2025-05-18,txn_w1x3y5z7,Anjali Mehta,Trip with friends,Entertainment,debit,-3000.00
+2025-05-16,txn_a5b7c9d1,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-05-15,txn_e9f1g3h5,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-05-15,txn_i3j5k7l9,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-05-15,txn_m7n9o1p3,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-05-15,txn_q1r3s5t7,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-05-12,txn_u5v7w9x1,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-05-12,txn_y9z1a3b5,Sunita Patel,Electricity Bill,Utilities,debit,-1100.00
+2025-05-10,txn_c3d5e7f9,Priya Sharma,Upwork Project Payment,Income,credit,95000.00
+2025-05-08,txn_g7h9i1j3,Rohan Verma,Uber to airport,Transport,debit,-850.00
+2025-05-05,txn_k1l3m5n7,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-05-05,txn_o5p7q9r1,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-05-03,txn_s9t1u3v5,Vikram Singh,Coffee Machine for Office,Business,debit,-18000.00
+2025-05-01,txn_w3x5y7z9,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-05-01,txn_a7b9c1d3,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-04-29,txn_e1f3g5h7,Priya Sharma,Client Payment,Income,credit,42000.00
+2025-04-28,txn_i5j7k9l1,Anjali Mehta,Study Material,Education,debit,-800.00
+2025-04-26,txn_m9n1o3p5,Rohan Verma,Decathlon Shopping,Shopping,debit,-4500.00
+2025-04-25,txn_q3r5s7t9,Sunita Patel,Charity Donation,Transfers,debit,-1500.00
+2025-04-23,txn_u7v9w1x3,Vikram Singh,Marketing Campaign,Business,debit,-25000.00
+2025-04-22,txn_y1z3a5b7,Priya Sharma,Swiggy Order,Food,debit,-520.00
+2025-04-20,txn_c5d7e9f1,Rohan Verma,Credit Card Payment,Transfers,debit,-12000.00
+2025-04-18,txn_g9h1i3j5,Anjali Mehta,Group Study Snacks,Food,debit,-400.00
+2025-04-16,txn_k3l5m7n9,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-04-15,txn_o7p9q1r3,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-04-15,txn_s1t3u5v7,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-04-15,txn_w5x7y9z1,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-04-15,txn_a9b1c3d5,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-04-12,txn_e3f5g7h9,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-04-12,txn_i7j9k1l3,Sunita Patel,Electricity Bill,Utilities,debit,-1400.00
+2025-04-10,txn_m1n3o5p7,Priya Sharma,Upwork Project Payment,Income,credit,68000.00
+2025-04-08,txn_q5r7s9t1,Rohan Verma,Petrol for bike,Transport,debit,-1500.00
+2025-04-05,txn_u9v1w3x5,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-04-05,txn_y3z5a7b9,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-04-03,txn_c7d9e1f3,Vikram Singh,Server Upgrade,Business,debit,-22000.00
+2025-04-01,txn_g1h3i5j7,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-04-01,txn_k5l7m9n1,Vikram Singh,Self Stipend,Income,credit,50000.00
+2025-03-30,txn_o9p1q3r5,Priya Sharma,Client Payment,Income,credit,35000.00
+2025-03-29,txn_s3t5u7v9,Anjali Mehta,Exam Fees,Education,debit,-2000.00
+2025-03-28,txn_w7x9y1z3,Rohan Verma,Gift for friend,Shopping,debit,-2200.00
+2025-03-26,txn_a2b4c6d8,Sunita Patel,Visit to Doctor,Health,debit,-1000.00
+2025-03-25,txn_e6f8g0h2,Vikram Singh,Business Travel,Business,debit,-18000.00
+2025-03-23,txn_i0j2k4l6,Priya Sharma,Local Market Vegetables,Housing,debit,-800.00
+2025-03-21,txn_m4n6o8p0,Rohan Verma,Investment in Mutual Fund,Investments,debit,-10000.00
+2025-03-20,txn_q8r0s2t4,Anjali Mehta,Class Trip,Education,debit,-1200.00
+2025-03-18,txn_u2v4w6x8,Vikram Singh,Office Pantry Stockup,Business,debit,-4500.00
+2025-03-16,txn_y6z8a0b2,Sunita Patel,Pension Credit,Income,credit,18000.00
+2025-03-15,txn_c0d2e4f6,Rohan Verma,Rent Payment,Housing,debit,-35000.00
+2025-03-15,txn_g4h6i8j0,Priya Sharma,Rent Payment,Housing,debit,-28000.00
+2025-03-15,txn_k8l0m2n4,Anjali Mehta,Hostel Fee,Housing,debit,-8000.00
+2025-03-15,txn_o2p4q6r8,Vikram Singh,Office Rent,Business,debit,-50000.00
+2025-03-12,txn_s6t8u0v2,Rohan Verma,Netflix Subscription,Entertainment,debit,-649.00
+2025-03-12,txn_w0x2y4z6,Sunita Patel,Electricity Bill,Utilities,debit,-1250.00
+2025-03-10,txn_a4b6c8d0,Priya Sharma,Upwork Project Payment,Income,credit,120000.00
+2025-03-08,txn_e8f0g2h4,Rohan Verma,Home Appliance Repair,Housing,debit,-2800.00
+2025-03-05,txn_i2j4k6l8,Rohan Verma,Airtel Bill,Utilities,debit,-799.00
+2025-03-05,txn_m6n8o0p2,Anjali Mehta,Mobile Recharge,Utilities,debit,-299.00
+2025-03-03,txn_q0r2s4t6,Vikram Singh,Stationery and Printing,Business,debit,-1800.00
+2025-03-01,txn_u4v6w8x0,Rohan Verma,Monthly Salary,Income,credit,110000.00
+2025-03-01,txn_y8z0a2b4,Vikram Singh,Self Stipend,Income,credit,50000.00
