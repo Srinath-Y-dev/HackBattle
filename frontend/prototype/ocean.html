@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin-Ocean: Your Savings Vessel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .ocean-bg {
+            background: linear-gradient(180deg, #005f73 0%, #0a9396 35%, #94d2bd 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #oceanCanvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; outline: none; z-index: 5;
+        }
+        
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .transaction-item { animation: fadeInDown 0.5s ease-out forwards; }
+        
+        .modal-backdrop { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out; }
+        .modal-hidden { pointer-events: none; opacity: 0; }
+        .modal-hidden .modal-content { transform: translateY(20px); }
+
+        .toggle-checkbox:checked + .toggle-label { background-color: #ee9b00; }
+        .toggle-checkbox:checked + .toggle-label .toggle-ball { transform: translateX(100%); }
+        
+        .ghost-timeline { opacity: 0.6; border: 1px dashed #004d40; }
+
+        .progress-bar-container { background-color: rgba(255, 255, 255, 0.3); }
+        .progress-bar { transition: width 0.5s ease-out; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(46, 204, 113, 0); }
+        }
+        .upgrade-boat-btn { animation: pulse 2s infinite; }
+        
+    </style>
+</head>
+<body class="bg-[#005f73]">
+
+    <main class="ocean-bg h-screen w-full max-w-md mx-auto flex flex-col justify-between md:max-w-lg">
+        <header class="p-6 flex justify-between items-center text-white z-20">
+            <button id="balanceLockerBtn" class="flex items-center space-x-3 bg-black/20 backdrop-blur-sm p-2 rounded-lg transition-transform hover:scale-105">
+                <i class="fas fa-treasure-chest text-amber-300 text-2xl"></i>
+                <div>
+                    <p class="text-xs opacity-80 text-left">Total Balance</p>
+                    <h1 class="text-lg font-bold monetary-value" data-amount="124580.75">₹1,24,580.75</h1>
+                </div>
+            </button>
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-coins text-amber-200"></i>
+                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input type="checkbox" name="timeToggle" id="timeToggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer hidden"/>
+                    <label for="timeToggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer">
+                         <span class="toggle-ball absolute left-0 block w-6 h-6 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out"></span>
+                    </label>
+                </div>
+                <i class="fas fa-hourglass-half text-white"></i>
+            </div>
+        </header>
+
+        <section id="boat-section" class="relative flex-grow flex flex-col items-center justify-center px-4 z-10">
+            <canvas id="oceanCanvas"></canvas>
+            
+            <div class="absolute top-4 left-1/2 -translate-x-1/2 w-11/12 max-w-xs bg-black/20 backdrop-blur-sm rounded-lg p-3 text-center z-20">
+                <p class="text-white text-sm font-medium">This Month's Savings Goal</p>
+                <div class="text-white text-lg font-bold tracking-tight">
+                    <span class="monetary-value" data-amount="0" id="currentSavings">₹0.00</span> / 
+                    <span class="monetary-value" data-amount="15000" id="savingsGoal">₹15,000.00</span>
+                </div>
+                <div class="w-full progress-bar-container rounded-full h-2.5 mt-2">
+                  <div id="savingsProgressBar" class="bg-[#ee9b00] h-2.5 rounded-full progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="velocityScoreGauge" class="absolute top-28 left-4 w-24 h-12 cursor-pointer z-20 flex flex-col items-center justify-end">
+                 <svg viewBox="0 0 100 50" class="w-full h-auto">
+                    <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0.3"/>
+                    <path id="velocityScoreBar" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#ee9b00" stroke-width="10" stroke-linecap="round" stroke-dasharray="125.6" stroke-dashoffset="125.6" style="transition: stroke-dashoffset 1.5s ease-out;"/>
+                </svg>
+                <div class="absolute top-0 w-full h-full flex flex-col items-center justify-center mt-[-10px]">
+                    <span class="text-white text-2xl font-bold" id="velocityScoreText">750</span>
+                    <span class="text-white text-[8px] opacity-80 -mt-1">Velocity</span>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-4 flex flex-col items-center space-y-3 z-20">
+                 <div class="flex space-x-3">
+                    <button id="saveMoneyBtn" class="bg-[#ee9b00] text-[#004d40] font-bold py-3 px-6 rounded-full flex items-center space-x-2 shadow-lg hover:bg-amber-500 transition-all duration-300">
+                         <i class="fas fa-piggy-bank"></i> <span>Save for Goal</span>
+                    </button>
+                    <button id="whatIfBtn" class="bg-white/20 backdrop-blur-md text-white font-semibold py-3 px-5 rounded-full flex items-center space-x-2 shadow-lg hover:bg-white/30 transition-all duration-300">
+                        <i class="fas fa-compass"></i> <span>What If?</span>
+                    </button>
+                </div>
+                <button id="upgradeBoatBtn" class="hidden bg-green-500 text-white font-bold py-2 px-4 rounded-full upgrade-boat-btn">
+                    <i class="fas fa-arrow-up"></i> Upgrade Your Boat!
+                </button>
+            </div>
+        </section>
+
+        <section id="history-section" class="hidden flex-grow bg-white/90 p-6 flex flex-col z-20 overflow-y-auto">
+             <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-[#004d40]">Transaction History</h2>
+                <button id="ghostToggle" class="hidden text-xs bg-sky-100 text-sky-700 px-3 py-1.5 rounded-full font-semibold">Show Comparison</button>
+            </div>
+            <div id="transactionList" class="space-y-4 flex-grow"></div>
+        </section>
+
+        <nav class="bg-white/90 backdrop-blur-lg w-full flex justify-around p-3 z-30 shadow-t-2xl">
+             <a href="#" id="homeNav" class="flex flex-col items-center text-[#ee9b00] w-1/4">
+                <i class="fas fa-ship text-2xl mb-1"></i><span class="text-xs font-bold">Home</span>
+            </a>
+            <a href="#" id="historyNav" class="flex flex-col items-center text-gray-500 hover:text-[#ee9b00] w-1/4 transition-colors">
+                <i class="fas fa-history text-2xl mb-1"></i><span class="text-xs">History</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-[#ee9b00] w-1/4 transition-colors">
+                <i class="fas fa-paper-plane text-2xl mb-1"></i><span class="text-xs">Send</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-[#ee9b00] w-1/4 transition-colors">
+                <i class="fas fa-user-circle text-2xl mb-1"></i><span class="text-xs">Profile</span>
+            </a>
+        </nav>
+    </main>
+    
+    <div id="whatIfModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-xl w-11/12 max-w-sm p-6">
+            <h3 class="text-xl font-bold text-[#004d40] mb-4">Chart a New Course</h3>
+            <div class="space-y-4">
+                <div>
+                    <label for="simType" class="block text-sm font-medium text-gray-700">Type of Change</label>
+                    <select id="simType" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md">
+                        <option value="CUT_SPENDING">Cut Spending</option>
+                        <option value="INCREASE_SAVINGS">Increase Savings</option>
+                    </select>
+                </div>
+                 <div>
+                    <label for="simCategory" class="block text-sm font-medium text-gray-700">Category (for Cutting)</label>
+                    <select id="simCategory" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md">
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Restaurant">Restaurant</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="simAmount" class="block text-sm font-medium text-gray-700">Monthly Amount (₹)</label>
+                    <input type="number" id="simAmount" placeholder="5000" class="mt-1 focus:ring-amber-500 focus:border-amber-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="closeWhatIfModal" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button id="runSimulationBtn" class="bg-[#ee9b00] text-[#004d40] font-bold px-4 py-2 rounded-lg hover:bg-amber-500">Analyze</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="saveMoneyModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-xl w-11/12 max-w-sm p-6">
+            <h3 class="text-xl font-bold text-[#004d40] mb-4">Save Towards Goal</h3>
+            <p class="text-sm text-gray-600 mb-4">How much would you like to transfer to your savings cargo?</p>
+            <div>
+                <label for="saveAmount" class="block text-sm font-medium text-gray-700">Amount to Save (₹)</label>
+                <input type="number" id="saveAmount" placeholder="1000" class="mt-1 focus:ring-amber-500 focus:border-amber-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="closeSaveMoneyModal" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button id="confirmSaveMoneyBtn" class="bg-[#ee9b00] text-[#004d40] font-bold px-4 py-2 rounded-lg hover:bg-amber-500">Confirm Savings</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="actionModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-xl w-11/12 max-w-sm p-6 text-center">
+            <h3 class="text-xl font-bold text-[#004d40] mb-2">Manage Total Balance</h3>
+            <p class="text-sm text-gray-600 mb-6">Add or send funds from your total balance.</p>
+            <div class="space-y-4">
+                <button id="modalAddBalanceBtn" class="w-full bg-green-500 text-white font-bold py-3 px-5 rounded-lg flex items-center justify-center space-x-3 hover:bg-green-600 transition-colors">
+                    <i class="fas fa-plus-circle fa-lg"></i>
+                    <span>Add Cargo to Balance</span>
+                </button>
+                <button id="modalSendCargoBtn" class="w-full bg-sky-500 text-white font-bold py-3 px-5 rounded-lg flex items-center justify-center space-x-3 hover:bg-sky-600 transition-colors">
+                    <i class="fas fa-paper-plane fa-lg"></i>
+                    <span>Send Cargo from Balance</span>
+                </button>
+            </div>
+            <div class="mt-6">
+                <button id="closeActionModal" class="text-gray-500 hover:text-gray-700">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="addBalanceModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-hidden">
+        <div class="modal-content bg-white rounded-2xl shadow-xl w-11/12 max-w-sm p-6">
+            <h3 class="text-xl font-bold text-[#004d40] mb-4">Add to Total Balance</h3>
+            <p class="text-sm text-gray-600 mb-4">This will add funds to your main balance, not the savings goal.</p>
+            <div>
+                <label for="addBalanceAmount" class="block text-sm font-medium text-gray-700">Amount to Add (₹)</label>
+                <input type="number" id="addBalanceAmount" placeholder="5000" class="mt-1 focus:ring-amber-500 focus:border-amber-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="closeAddBalanceModal" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button id="confirmAddBalanceBtn" class="bg-[#ee9b00] text-[#004d40] font-bold px-4 py-2 rounded-lg hover:bg-amber-500">Confirm Deposit</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- State & Initial Data ---
+    const hourlyCost = 1000;
+    let isTimeView = false;
+    let totalBalance = 124580.75;
+    let currentSavings = 0;
+    const savingsGoal = 15000;
+    const boatUpgradeThreshold = 1.2;
+
+    let originalTimeline = [
+        { icon: 'fa-utensils', color: 'teal', title: 'The Salty Siren', category: 'Restaurant', amount: -1250.00, type: 'debit' },
+        { icon: 'fa-anchor', color: 'sky', title: 'Portside Supplies', category: 'Shopping', amount: -4800.50, type: 'debit' },
+        { icon: 'fa-treasure-chest', color: 'emerald', title: 'Monthly Bounty', category: 'Salary', amount: 85000.00, type: 'credit' },
+        { icon: 'fa-film', color: 'purple', title: 'Cinema Seas', category: 'Entertainment', amount: -750.00, type: 'debit' },
+    ];
+    let activeTimeline = JSON.parse(JSON.stringify(originalTimeline));
+    let ghostTimeline = null;
+    let isShowingComparison = false;
+
+    // --- DOM Elements ---
+    const boatSection = document.getElementById('boat-section');
+    const historySection = document.getElementById('history-section');
+    const currentSavingsEl = document.getElementById('currentSavings');
+    const savingsProgressBar = document.getElementById('savingsProgressBar');
+    const upgradeBoatBtn = document.getElementById('upgradeBoatBtn');
+    const transactionListEl = document.getElementById('transactionList');
+    const ghostToggleBtn = document.getElementById('ghostToggle');
+    const balanceLockerBtn = document.getElementById('balanceLockerBtn');
+    const saveMoneyBtn = document.getElementById('saveMoneyBtn');
+
+    // Modals
+    const saveMoneyModal = document.getElementById('saveMoneyModal');
+    const whatIfModal = document.getElementById('whatIfModal');
+    const actionModal = document.getElementById('actionModal');
+    const addBalanceModal = document.getElementById('addBalanceModal');
+    
+    const navLinks = { home: document.getElementById('homeNav'), history: document.getElementById('historyNav') };
+
+    // --- Three.js Scene Setup ---
+    let scene, camera, renderer, ocean, boat, clock, savingsCargo;
+    const container = document.getElementById('boat-section');
+    // --- (3D Functions are unchanged and correct, omitted for brevity but included for completeness) ---
+    function init3D() {
+        scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x005f73, 1, 20);
+        camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 3, 7);
+        camera.lookAt(0, 1, 0);
+        const canvas = document.getElementById('oceanCanvas');
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        clock = new THREE.Clock();
+        const ambientLight = new THREE.AmbientLight(0x94d2bd, 0.8);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        directionalLight.position.set(5, 10, 7);
+        scene.add(directionalLight);
+        createOcean();
+        createBoat();
+        createSavingsCargo();
+        window.addEventListener('resize', onWindowResize);
+        animate3D();
+    }
+    function createSavingsCargo() {
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0xfca5a5, roughness: 0.6, metalness: 0.3 });
+        savingsCargo = new THREE.Mesh(geometry, material);
+        savingsCargo.position.y = 1;
+        savingsCargo.visible = false;
+        boat.add(savingsCargo);
+    }
+    function updateSavingsCargoSize() {
+        const savingsRatio = Math.min(currentSavings / savingsGoal, 2);
+        if (savingsRatio > 0) {
+            savingsCargo.visible = true;
+            const scale = 0.5 + savingsRatio * 0.8;
+            savingsCargo.scale.set(scale, scale, scale);
+            savingsCargo.position.y = 0.4 + (scale / 2);
+        } else {
+            savingsCargo.visible = false;
+        }
+        upgradeBoatBtn.classList.toggle('hidden', currentSavings / savingsGoal < boatUpgradeThreshold);
+    }
+    function createOcean() {
+        const geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
+        const material = new THREE.MeshPhongMaterial({ color: 0x0a9396, shininess: 100, transparent: true, opacity: 0.8 });
+        ocean = new THREE.Mesh(geometry, material);
+        ocean.rotation.x = -Math.PI / 2;
+        ocean.position.y = -1;
+        ocean.geometry.setAttribute('initialPosition', ocean.geometry.attributes.position.clone());
+        scene.add(ocean);
+    }
+    function createBoat() {
+        boat = new THREE.Group();
+        const woodMaterial = new THREE.MeshStandardMaterial({ color: 0x9d6b53, roughness: 0.7 });
+        const darkWoodMaterial = new THREE.MeshStandardMaterial({ color: 0x7a5540, roughness: 0.8 });
+        const sailMaterial = new THREE.MeshStandardMaterial({ color: 0xee9b00, side: THREE.DoubleSide });
+        const hullShape = new THREE.Shape();
+        hullShape.moveTo(-1.5, 0);
+        hullShape.bezierCurveTo(-1.5, 0.8, 1.5, 0.8, 1.5, 0);
+        hullShape.lineTo(-1.5, 0);
+        const extrudeSettings = { depth: 0.5, bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.1, bevelSegments: 2 };
+        const hullGeometry = new THREE.ExtrudeGeometry(hullShape, extrudeSettings);
+        const hull = new THREE.Mesh(hullGeometry, woodMaterial);
+        hull.rotation.x = -Math.PI / 2;
+        hull.scale.set(1, 1.5, 1);
+        const deck = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.1, 1), darkWoodMaterial);
+        deck.position.y = 0.4;
+        const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 2.5, 8), darkWoodMaterial);
+        mast.position.y = 1.65;
+        const sail = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1), sailMaterial);
+        sail.position.set(0.8, 1.8, 0);
+        boat.add(hull, deck, mast, sail);
+        scene.add(boat);
+    }
+    function onWindowResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+    function animate3D() {
+        requestAnimationFrame(animate3D);
+        const elapsedTime = clock.getElapsedTime();
+        const initialPositions = ocean.geometry.attributes.initialPosition;
+        const positions = ocean.geometry.attributes.position;
+        for (let i = 0; i < positions.count; i++) {
+            const y = 0.1 * Math.sin(initialPositions.getX(i) * 2 + elapsedTime * 1.5) + 0.05 * Math.cos(initialPositions.getY(i) * 3 + elapsedTime * 2.0);
+            positions.setZ(i, y);
+        }
+        positions.needsUpdate = true;
+        boat.position.y = 0.05 * Math.sin(elapsedTime * 1.5);
+        boat.rotation.z = 0.02 * Math.cos(elapsedTime);
+        boat.rotation.x = 0.03 * Math.sin(elapsedTime * 2.0);
+        renderer.render(scene, camera);
+    }
+
+    // --- UI Rendering & Logic ---
+    const formatCurrency = (amount) => {
+        if (!isTimeView) return `₹${Math.abs(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        return `${(Math.abs(amount) / hourlyCost).toFixed(1)} hrs`;
+    };
+    
+    const updateAllMonetaryValues = () => {
+        document.querySelectorAll('.monetary-value').forEach(el => {
+            const amount = parseFloat(el.dataset.amount);
+            el.textContent = formatCurrency(amount);
+        });
+    };
+
+    const updateSavingsDisplay = () => {
+        currentSavingsEl.dataset.amount = currentSavings;
+        const percentage = Math.min((currentSavings / savingsGoal) * 100, 100);
+        savingsProgressBar.style.width = `${percentage}%`;
+        updateAllMonetaryValues();
+        updateSavingsCargoSize();
+    };
+    
+    // --- CORRECTED/IMPROVED CODE ---
+    // NOTE: For Tailwind CSS's JIT compiler to work in a real project, it must find the full class name strings.
+    // Dynamically creating classes like `bg-${color}-100` can fail during the build process unless these classes
+    // (e.g., 'bg-teal-100', 'bg-sky-100', etc.) are safelisted in your `tailwind.config.js` file.
+    const createTransactionHTML = (transaction, isGhost = false) => {
+        const sign = transaction.type === 'debit' ? '-' : '+';
+        const amountColor = transaction.type === 'debit' ? 'text-red-500' : 'text-green-500';
+        const ghostClass = isGhost ? 'ghost-timeline' : '';
+
+        // Added known color classes to satisfy Tailwind's JIT scanner in a real-world scenario
+        const colors = {
+            teal: 'bg-teal-100 text-teal-600',
+            sky: 'bg-sky-100 text-sky-600',
+            emerald: 'bg-emerald-100 text-emerald-600',
+            purple: 'bg-purple-100 text-purple-600',
+            pink: 'bg-pink-100 text-pink-600',
+            green: 'bg-green-100 text-green-600',
+            amber: 'bg-amber-100 text-amber-600',
+        };
+        const colorClasses = colors[transaction.color] || 'bg-gray-100 text-gray-600';
+
+        return `
+            <div class="flex items-center p-3 rounded-xl bg-white/70 transaction-item ${ghostClass}">
+                <div class="w-10 h-10 ${colorClasses.split(' ')[0]} rounded-full flex items-center justify-center mr-4">
+                    <i class="fas ${transaction.icon} ${colorClasses.split(' ')[1]}"></i>
+                </div>
+                <div class="flex-grow">
+                    <p class="font-semibold text-gray-800">${transaction.title}</p>
+                    <p class="text-sm text-gray-500">${transaction.category}</p>
+                </div>
+                <p class="font-bold ${amountColor}">${sign} <span class="monetary-value" data-amount="${Math.abs(transaction.amount)}">${formatCurrency(transaction.amount)}</span></p>
+            </div>
+        `;
+    };
+
+    const renderTransactions = () => {
+        transactionListEl.innerHTML = activeTimeline.map(tx => createTransactionHTML(tx)).join('');
+        if (ghostTimeline && isShowingComparison) {
+             transactionListEl.innerHTML += ghostTimeline.map(tx => createTransactionHTML(tx, true)).join('');
+        }
+        updateAllMonetaryValues();
+    };
+    
+    const setActivePage = (pageName) => {
+        boatSection.classList.toggle('hidden', pageName !== 'home');
+        historySection.classList.toggle('hidden', pageName !== 'history');
+        navLinks.home.classList.toggle('text-[#ee9b00]', pageName === 'home');
+        navLinks.home.classList.toggle('text-gray-500', pageName !== 'home');
+        navLinks.history.classList.toggle('text-[#ee9b00]', pageName === 'history');
+        navLinks.history.classList.toggle('text-gray-500', pageName !== 'history');
+        if (pageName === 'history') renderTransactions();
+    };
+
+    navLinks.home.addEventListener('click', (e) => { e.preventDefault(); setActivePage('home'); });
+    navLinks.history.addEventListener('click', (e) => { e.preventDefault(); setActivePage('history'); });
+
+    // --- Modal Logic ---
+
+    // Save to Goal (from home button)
+    saveMoneyBtn.addEventListener('click', () => saveMoneyModal.classList.remove('modal-hidden'));
+    document.getElementById('closeSaveMoneyModal').addEventListener('click', () => saveMoneyModal.classList.add('modal-hidden'));
+    document.getElementById('confirmSaveMoneyBtn').addEventListener('click', () => {
+        const amountInput = document.getElementById('saveAmount');
+        const amountToSave = parseFloat(amountInput.value);
+        if (!isNaN(amountToSave) && amountToSave > 0 && totalBalance >= amountToSave) {
+            totalBalance -= amountToSave;
+            currentSavings += amountToSave;
+            const newTransaction = { icon: 'fa-piggy-bank', color: 'pink', title: 'Saved to Cargo', category: 'Savings', amount: -amountToSave, type: 'debit' };
+            originalTimeline.unshift(newTransaction);
+            activeTimeline.unshift(JSON.parse(JSON.stringify(newTransaction)));
+            updateSavingsDisplay();
+            document.querySelector('header .monetary-value').dataset.amount = totalBalance;
+            updateAllMonetaryValues();
+        }
+        amountInput.value = '';
+        saveMoneyModal.classList.add('modal-hidden');
+    });
+
+    // Add to Total Balance (from locker)
+    document.getElementById('closeAddBalanceModal').addEventListener('click', () => addBalanceModal.classList.add('modal-hidden'));
+    document.getElementById('confirmAddBalanceBtn').addEventListener('click', () => {
+        const amountInput = document.getElementById('addBalanceAmount');
+        const amountToAdd = parseFloat(amountInput.value);
+        if (!isNaN(amountToAdd) && amountToAdd > 0) {
+            totalBalance += amountToAdd;
+            const newTransaction = { icon: 'fa-plus-circle', color: 'green', title: 'Funds Added', category: 'Deposit', amount: amountToAdd, type: 'credit' };
+            originalTimeline.unshift(newTransaction);
+            activeTimeline.unshift(JSON.parse(JSON.stringify(newTransaction)));
+            document.querySelector('header .monetary-value').dataset.amount = totalBalance;
+            updateAllMonetaryValues();
+        }
+        amountInput.value = '';
+        addBalanceModal.classList.add('modal-hidden');
+    });
+
+    // Action Modal (from locker)
+    balanceLockerBtn.addEventListener('click', () => actionModal.classList.remove('modal-hidden'));
+    document.getElementById('closeActionModal').addEventListener('click', () => actionModal.classList.add('modal-hidden'));
+    document.getElementById('modalAddBalanceBtn').addEventListener('click', () => {
+        actionModal.classList.add('modal-hidden');
+        addBalanceModal.classList.remove('modal-hidden');
+    });
+    document.getElementById('modalSendCargoBtn').addEventListener('click', () => {
+        actionModal.classList.add('modal-hidden');
+        // Placeholder for Send feature
+    });
+
+    // What If Modal
+    document.getElementById('whatIfBtn').addEventListener('click', () => whatIfModal.classList.remove('modal-hidden'));
+    document.getElementById('closeWhatIfModal').addEventListener('click', () => whatIfModal.classList.add('modal-hidden'));
+    
+    // --- CORRECTED/IMPROVED LOGIC ---
+    document.getElementById('runSimulationBtn').addEventListener('click', () => {
+        // Create a clean copy of the original timeline to serve as the "before" picture.
+        ghostTimeline = JSON.parse(JSON.stringify(originalTimeline));
+        // Create another clean copy to modify for the simulation.
+        let simulatedTimeline = JSON.parse(JSON.stringify(originalTimeline));
+
+        const simType = document.getElementById('simType').value;
+        const simAmount = parseFloat(document.getElementById('simAmount').value);
+        const simCategory = document.getElementById('simCategory').value;
+
+        if (simType === 'CUT_SPENDING') {
+            simulatedTimeline = simulatedTimeline.filter(tx => tx.category !== simCategory);
+        } else if (simType === 'INCREASE_SAVINGS' && !isNaN(simAmount) && simAmount > 0) {
+            simulatedTimeline.unshift({
+                icon: 'fa-chart-line',
+                color: 'amber',
+                title: `Simulated Savings`,
+                category: 'Simulation',
+                amount: simAmount,
+                type: 'credit'
+            });
+        }
+        
+        // Set the active timeline to our new simulated version
+        activeTimeline = simulatedTimeline;
+
+        whatIfModal.classList.add('modal-hidden');
+        ghostToggleBtn.classList.remove('hidden');
+
+        // Set the comparison view to be active by default after running a simulation
+        isShowingComparison = true;
+        ghostToggleBtn.classList.add('bg-sky-700', 'text-white');
+        ghostToggleBtn.classList.remove('bg-sky-100', 'text-sky-700');
+        ghostToggleBtn.textContent = 'Hide Comparison';
+        
+        setActivePage('history');
+    });
+
+    // --- CORRECTED/IMPROVED LOGIC ---
+    ghostToggleBtn.addEventListener('click', () => {
+        isShowingComparison = !isShowingComparison; // Toggle the state
+
+        if (isShowingComparison) {
+            // Show comparison: Active button style
+            ghostToggleBtn.classList.add('bg-sky-700', 'text-white');
+            ghostToggleBtn.classList.remove('bg-sky-100', 'text-sky-700');
+            ghostToggleBtn.textContent = 'Hide Comparison';
+        } else {
+            // Hide comparison: Inactive button style
+            ghostToggleBtn.classList.remove('bg-sky-700', 'text-white');
+            ghostToggleBtn.classList.add('bg-sky-100', 'text-sky-700');
+            ghostToggleBtn.textContent = 'Show Comparison';
+            // Optional: Reset to original view when hiding comparison
+            activeTimeline = JSON.parse(JSON.stringify(originalTimeline));
+            ghostTimeline = null;
+            ghostToggleBtn.classList.add('hidden');
+        }
+        renderTransactions();
+    });
+
+    // --- App Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        init3D();
+        setActivePage('home');
+        updateSavingsDisplay();
+        const score = 750;
+        document.getElementById('velocityScoreText').textContent = score;
+        document.getElementById('velocityScoreBar').style.strokeDashoffset = 125.6 * (1 - (score / 1000));
+        document.getElementById('timeToggle').addEventListener('change', (e) => {
+            isTimeView = e.target.checked;
+            updateAllMonetaryValues();
+            // Also re-render transactions if on history page
+            if (!historySection.classList.contains('hidden')) {
+                renderTransactions();
+            }
+        });
+    });
+</script>
+</body>
+</html>
