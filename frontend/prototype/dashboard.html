@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinCargo - Premium Financial Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    /* --- Your styles remain unchanged --- */
+    /* Paste all your existing CSS here */
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">FinCargo</div>
+        <div class="user-profile">
+          <div class="profile-pic"><i class="fas fa-user"></i></div>
+          <div>
+            <div style="font-weight: bold;">Welcome back, Alex!</div>
+            <div style="opacity: 0.7; font-size: 0.9rem;">Premium Member</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <!-- (Keep your original dashboard grid and other sections unchanged) -->
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="action-btn" onclick="calculateScore()">
+        <i class="fas fa-calculator"></i> Recalculate Score
+      </button>
+      <button class="action-btn secondary" onclick="generateReport()">
+        <i class="fas fa-file-alt"></i> Generate Report
+      </button>
+      <button class="action-btn" onclick="addGoal()">
+        <i class="fas fa-plus"></i> Add New Goal
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Animate score counter
+    function animateScore() {
+      const scoreElement = document.getElementById('scoreValue');
+      let currentScore = 0;
+      const targetScore = 750;
+      const increment = targetScore / 100;
+      const counter = setInterval(() => {
+        currentScore += increment;
+        if (currentScore >= targetScore) {
+          currentScore = targetScore;
+          clearInterval(counter);
+        }
+        scoreElement.textContent = Math.floor(currentScore);
+      }, 30);
+    }
+
+    // Send chat message
+    function sendMessage() {
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+      const message = chatInput.value.trim();
+
+      if (message) {
+        const userMessage = document.createElement('div');
+        userMessage.classList.add('message', 'user-message');
+        userMessage.textContent = message;
+        chatMessages.appendChild(userMessage);
+
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        setTimeout(() => {
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('message', 'bot-message');
+          botMessage.innerHTML = generateBotResponse(message);
+          chatMessages.appendChild(botMessage);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+      }
+    }
+
+    function generateBotResponse(userMessage) {
+      const responses = [
+        "That's a great question! Based on your financial profile, I'd recommend focusing on debt reduction first.",
+        "I can help you create a personalized budget plan. Your current savings rate is excellent!",
+        "Consider diversifying your investment portfolio. Would you like me to suggest some options?",
+        "Your credit score improvement plan is on track. Keep making those on-time payments!",
+        "Emergency fund tip: Aim for 6 months of expenses. You're currently at 4.2 months - great progress!"
+      ];
+      return responses[Math.floor(Math.random() * responses.length)];
+    }
+
+    document.getElementById('chatInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function updateGoal(element, progress) {
+      const progressFill = element.querySelector('.progress-fill');
+      const newProgress = Math.min(progress + 5, 100);
+      progressFill.style.width = newProgress + '%';
+      const progressText = element.querySelector('.goal-progress');
+      progressText.textContent = progressText.textContent.replace(/\d+%/, newProgress + '%');
+      element.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        element.style.transform = '';
+      }, 200);
+    }
+
+    function calculateScore() {
+      const scoreValue = document.getElementById('scoreValue');
+      scoreValue.textContent = '...';
+      setTimeout(() => {
+        const newScore = Math.floor(Math.random() * 50) + 725;
+        scoreValue.textContent = newScore;
+        scoreValue.style.animation = 'none';
+        setTimeout(() => {
+          scoreValue.style.animation = 'scoreGlow 2s ease-in-out infinite alternate';
+        }, 50);
+      }, 2000);
+    }
+
+    function generateReport() {
+      alert('📊 Financial Report Generated!\n\n✅ Credit Score: Excellent (750)\n✅ Debt-to-Income: Healthy (14%)\n✅ Savings Rate: Above Average (25%)\n✅ Investment Diversity: Good\n\n📈 Recommendation: Consider increasing retirement contributions by 2%');
+    }
+
+    function addGoal() {
+      const goalTypes = ['🎯 Emergency Fund', '🏖 Retirement Planning', '📱 Tech Upgrade', '🎪 Entertainment Budget'];
+      const randomGoal = goalTypes[Math.floor(Math.random() * goalTypes.length)];
+      alert(`🎉 New Goal Added: ${randomGoal}\n\nYour personalized action plan has been created!`);
+    }
+
+    // Initialize
+    createParticles();
+    setTimeout(animateScore, 1000);
+
+    // Hover effects for cards
+    document.querySelectorAll('.glass-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  </script>
+</body>
+</html>
