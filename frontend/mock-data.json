@@ -1,0 +1,12 @@
+{
+  "persona_id": "p-sandbox-12345",
+  "persona_name": "Alex Taylor",
+  "simulation_start_date": "2024-09-24",
+  "initial_balance": 5000.00,
+  "base_income": { "amount": 2500.00, "frequency_days": 15 },
+  "recurring_expenses": [
+    { "category": "Rent", "amount": 1200.00, "frequency_days": 30 },
+    { "category": "Utilities", "amount": 150.00, "frequency_days": 30 }
+  ],
+  "timeline": []
+}
