@@ -32,7 +32,8 @@ def run_final_validation():
             if 'error' in score_card:
                 print(f"Could not calculate score: {score_card['error']}\n")
             else:
-                print(f"  Calculated Score: {score_card['financial_velocity_score']}")
+                scaled_score = score_card['financial_velocity_score'] * 1000
+                print(f"  Calculated Score: {round(scaled_score, 2)}")
                 print(f"  Breakdown: {score_card['breakdown']}\n")
         else:
             print(f"No transaction data found for {person_name}.\n")
