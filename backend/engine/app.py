@@ -6,7 +6,7 @@ from langchain_openai import OpenAI
 from langchain_experimental.agents import create_pandas_dataframe_agent
 
 
-api_key = "YOUR_OPENAI_API_KEY" 
+api_key = "AIzaSyCY2kE80M4xDZ9d2WN7zsDzaVAU-aCrTi8" 
 
 # Initialize Flask App
 app = Flask(__name__)
