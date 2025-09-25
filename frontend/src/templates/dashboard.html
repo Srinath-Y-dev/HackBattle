@@ -255,6 +255,7 @@
             padding: 12px 18px;
             border-radius: 18px;
             max-width: 80%;
+            line-height: 1.4;
         }
 
         .user-message {
@@ -393,11 +394,11 @@
         </div>
 
         <div class="fin-ocean-section">
-            <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
-            <button class="fin-ocean-btn">
-                <i class="fas fa-water"></i> Let's dive into Fin Ocean
-            </button>
-        </div>
+    <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
+    <a href="ocean.html" class="fin-ocean-btn">
+        <i class="fas fa-water"></i> Let's dive into Fin Ocean
+    </a>
+</div>
 
         <div class="dashboard-grid">
             <div class="card score-card">
@@ -452,10 +453,10 @@
                 </div>
                 <div class="chat-container">
                     <div class="chat-messages" id="chatMessages">
-                        <div class="message bot-message">Hi! Select a user to view their financial insights!</div>
+                        <div class="message bot-message">Hi! I'm your financial assistant. Ask me anything about the user data!</div>
                     </div>
                     <div class="chat-input-container">
-                        <input type="text" class="chat-input" placeholder="Ask a question..." id="chatInput">
+                        <input type="text" class="chat-input" placeholder="E.g., Who has the highest score?" id="chatInput">
                         <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
@@ -490,11 +491,7 @@
                 netBalance: 162000,
                 transactions: 24,
                 categories: {
-                    "Housing": 28000,
-                    "Food": 1650,
-                    "Utilities": 2399,
-                    "Shopping": 6700,
-                    "Income": 45000
+                    "Housing": 28000, "Food": 1650, "Utilities": 2399, "Shopping": 6700, "Income": 45000
                 }
             },
             "Rohan Verma": {
@@ -504,12 +501,7 @@
                 netBalance: 320000,
                 transactions: 32,
                 categories: {
-                    "Housing": 35000,
-                    "Entertainment": 2398,
-                    "Shopping": 9500,
-                    "Transport": 13130,
-                    "Food": 3980,
-                    "Income": 110000
+                    "Housing": 35000, "Entertainment": 2398, "Shopping": 9500, "Transport": 13130, "Food": 3980, "Income": 110000
                 }
             },
             "Anjali Mehta": {
@@ -519,23 +511,17 @@
                 netBalance: -35000,
                 transactions: 16,
                 categories: {
-                    "Housing": 8000,
-                    "Food": 820,
-                    "Education": 3450,
-                    "Entertainment": 5000,
-                    "Income": 5000
+                    "Housing": 8000, "Food": 820, "Education": 3450, "Entertainment": 5000, "Income": 5000
                 }
             },
             "Vikram Singh": {
                 score: 850,
-                monthlyIncome: 883333,
-                monthlyExpenses: 383500,
+                monthlyIncome: 88333,
+                monthlyExpenses: 38350,
                 netBalance: 4996500,
                 transactions: 28,
                 categories: {
-                    "Business": 333500,
-                    "Housing": 50000,
-                    "Income": 5050000
+                    "Business": 333500, "Housing": 50000, "Income": 5050000
                 }
             },
             "Sunita Patel": {
@@ -545,10 +531,7 @@
                 netBalance: 54200,
                 transactions: 12,
                 categories: {
-                    "Housing": 5850,
-                    "Health": 4280,
-                    "Utilities": 2450,
-                    "Income": 18000
+                    "Housing": 5850, "Health": 4280, "Utilities": 2450, "Income": 18000
                 }
             }
         };
@@ -560,7 +543,6 @@
             if (selectedUser && userData[selectedUser]) {
                 const data = userData[selectedUser];
                 
-                // --- FIX: Used backticks for template literal ---
                 document.getElementById('welcomeUser').textContent = `Welcome back, ${selectedUser.split(' ')[0]}!`;
                 document.getElementById('scoreValue').textContent = data.score;
                 
@@ -570,24 +552,21 @@
                 else if (data.score >= 650) scoreStatus = 'Fair';
                 document.getElementById('scoreStatus').textContent = scoreStatus + ' Credit';
                 
-                // --- FIX: Standardized currency to ₹ ---
                 document.getElementById('monthlyIncome').textContent = '₹' + data.monthlyIncome.toLocaleString();
                 document.getElementById('monthlyExpenses').textContent = '₹' + data.monthlyExpenses.toLocaleString();
                 document.getElementById('netBalance').textContent = '₹' + data.netBalance.toLocaleString();
                 document.getElementById('totalTransactions').textContent = data.transactions;
                 
-                // --- FIX: Updated progress bars ---
                 const maxIncome = 150000;
                 const maxExpense = 100000;
-                const maxBalance = 5000000; // High value for Vikram
+                const maxBalance = 5000000;
                 
                 document.getElementById('incomeBar').style.width = Math.min(100, (data.monthlyIncome / maxIncome) * 100) + '%';
                 document.getElementById('expenseBar').style.width = Math.min(100, (data.monthlyExpenses / maxExpense) * 100) + '%';
                 document.getElementById('balanceBar').style.width = Math.max(0, Math.min(100, (data.netBalance / maxBalance) * 100)) + '%';
-
                 
                 updateSpendingBreakdown(data.categories);
-                updateChat(selectedUser, data);
+                updateChatOnUserSelect(selectedUser, data); // Changed function name for clarity
             }
         }
 
@@ -601,14 +580,11 @@
             expenseCategories.slice(0, 3).forEach(([category, amount]) => {
                 const percentage = totalSpending > 0 ? (amount / totalSpending * 100) : 0;
                 const icons = {
-                    'Housing': '🏠', 'Food': '🍽', 'Transport': '🚗',
-                    'Entertainment': '🎬', 'Shopping': '🛒', 'Business': '💼',
-                    'Health': '🏥', 'Utilities': '💡', 'Education': '🎓'
+                    'Housing': '🏠', 'Food': '🍽', 'Transport': '🚗', 'Entertainment': '🎬', 'Shopping': '🛒', 'Business': '💼', 'Health': '🏥', 'Utilities': '💡', 'Education': '🎓'
                 };
                 
                 const goalItem = document.createElement('div');
                 goalItem.className = 'goal-item';
-                // --- FIX: Standardized currency to ₹ ---
                 goalItem.innerHTML = `
                     <div class="goal-title">${icons[category] || '📊'} ${category}</div>
                     <div class="goal-progress">Amount: ₹${amount.toLocaleString()} • ${percentage.toFixed(1)}% of total</div>
@@ -618,17 +594,83 @@
             });
         }
 
-        function updateChat(userName, data) {
+        // This function now ONLY updates the chat when a user is selected from the dropdown
+        function updateChatOnUserSelect(userName, data) {
             const chatMessages = document.getElementById('chatMessages');
-            // --- FIX: Standardized currency to ₹ ---
             chatMessages.innerHTML = `
-                <div class="message bot-message">Hi ${userName.split(' ')[0]}! Your financial score is ${data.score}.</div>
-                <div class="message bot-message">You have a net balance of ₹${data.netBalance.toLocaleString()} with ${data.transactions} transactions this month.</div>
-                <div class="message bot-message">How can I help you today?</div>
+                <div class="message bot-message">Hi ${userName.split(' ')[0]}! You are viewing their dashboard.</div>
+                <div class="message bot-message">Ask me anything about the financial data for all users, like "Who has the lowest monthly expenses?".</div>
             `;
         }
+        
+        // --- NEW: CHATBOT LOGIC ---
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.querySelector('.send-btn');
 
+        // Function to add a message to the chat window
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+        }
+
+        // Function to handle sending a message to the backend
+        async function sendMessage() {
+            const userText = chatInput.value.trim();
+            if (userText === "") return;
+
+            addMessage(userText, 'user');
+            chatInput.value = '';
+
+            // Add a temporary "thinking" message for better UX
+            addMessage("Thinking...", 'bot');
+
+            try {
+                // Send the question to the Flask backend
+                const response = await fetch('http://127.0.0.1:5000/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: userText }),
+                });
+                
+                // Remove the "Thinking..." message
+                chatMessages.removeChild(chatMessages.lastChild);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Display the bot's actual answer
+                addMessage(data.answer, 'bot');
+
+            } catch (error) {
+                console.error("Error fetching from agent:", error);
+                
+                // Make sure to remove the "Thinking..." message on error too
+                if(chatMessages.lastChild && chatMessages.lastChild.textContent === "Thinking..."){
+                    chatMessages.removeChild(chatMessages.lastChild);
+                }
+                addMessage("Sorry, I can't connect to the server. Please ensure the Python script is running.", 'bot');
+            }
+        }
+
+        // Event listeners for the chat
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
         document.getElementById('userSelect').addEventListener('change', switchUser);
+
     </script>
 </body>
 </html>
