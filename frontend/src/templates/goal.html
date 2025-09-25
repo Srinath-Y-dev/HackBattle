@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinCargo - Financial Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Financial Goal Tracker</title>
     <style>
         * {
             margin: 0;
@@ -223,40 +222,20 @@
             <p>Set your financial target and track your progress</p>
         </div>
 
-            <!-- Fin Ocean Section - Most Important -->
-            <div class="fin-ocean-section">
-                <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
-                <a href="ocean.html"><button class="fin-ocean-btn" onclick="diveIntoFinOcean()">
-                    <i class="fas fa-water"></i> Let's dive into Fin Ocean
-                </button></a>
-            </div>
+        <div class="form-group">
+            <label for="goalName">What is your financial goal?</label>
+            <input type="text" id="goalName" placeholder="e.g., Emergency Fund, New Car, Vacation">
+        </div>
 
-            <div class="dashboard-grid">
-                <div class="card score-card">
-                    <div class="card-header">
-                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                        <div class="card-title">Financial Score</div>
-                    </div>
-                    <div class="score-value" id="scoreValue">750</div>
-                    <div style="opacity: 0.8;">Excellent Credit</div>
-                </div>
+        <div class="form-group">
+            <label for="goalAmount">Target Amount ($)</label>
+            <input type="number" id="goalAmount" placeholder="10000" min="1" step="0.01">
+        </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon"><i class="fas fa-coins"></i></div>
-                        <div class="card-title">Income & Assets</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">Monthly Income</div>
-                        <div class="stat-value">$8,500</div>
-                        <div class="stat-bar"><div class="stat-fill" style="width: 85%;"></div></div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">Total Assets</div>
-                        <div class="stat-value">$285K</div>
-                        <div class="stat-bar"><div class="stat-fill" style="width: 70%;"></div></div>
-                    </div>
-                </div>
+        <div class="form-group">
+            <label for="targetDate">When do you want to achieve this goal?</label>
+            <input type="date" id="targetDate">
+        </div>
 
         <button class="calculate-btn" onclick="calculateGoal()">Track My Goal</button>
 
@@ -296,55 +275,104 @@
     </div>
 
     <script>
-        // Static Chat Functionality
-        function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const chatMessages = document.getElementById('chatMessages');
-            const messageText = chatInput.value.trim();
+        // Set minimum date to today
+        document.getElementById('targetDate').min = new Date().toISOString().split('T')[0];
+
+        function calculateGoal() {
+            const goalName = document.getElementById('goalName').value;
+            const goalAmount = parseFloat(document.getElementById('goalAmount').value);
+            const targetDate = new Date(document.getElementById('targetDate').value);
+            const today = new Date();
+
+            // Validation
+            if (!goalName.trim()) {
+                alert('Please enter your financial goal!');
+                return;
+            }
+
+            if (!goalAmount || goalAmount <= 0) {
+                alert('Please enter a valid target amount!');
+                return;
+            }
+
+            if (!targetDate || targetDate <= today) {
+                alert('Please select a future date for your goal!');
+                return;
+            }
+
+            // Calculate days
+            const timeDifference = targetDate.getTime() - today.getTime();
+            const totalDaysFromStart = Math.ceil(timeDifference / (1000 * 3600 * 24));
+            const remainingDays = totalDaysFromStart;
+            const weeks = Math.floor(remainingDays / 7);
+            const months = Math.floor(remainingDays / 30.44); // Average days per month
+
+            // Update display
+            document.getElementById('goalTitle').textContent = goalName;
+            document.getElementById('displayAmount').textContent = `$${goalAmount.toLocaleString()}`;
+            document.getElementById('totalDays').textContent = totalDaysFromStart;
+            document.getElementById('remainingDays').textContent = remainingDays;
+            document.getElementById('weeks').textContent = weeks;
+            document.getElementById('months').textContent = months;
+
+            // Calculate progress (assuming we're at the start)
+            const progressPercentage = 0; // You could make this dynamic based on current savings
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+
+            // Set motivation message
+            const motivationMessages = [
+                `Only ${remainingDays} days to make your dream a reality!`,
+                `Break it down: Save $${(goalAmount / remainingDays).toFixed(2)} per day to reach your goal!`,
+                `${weeks} weeks to transform your financial future!`,
+                `Your ${goalName} goal is ${remainingDays} days away. You've got this!`,
+                `Every day counts! ${remainingDays} days to financial success!`
+            ];
             
-            if (messageText) {
-                // Add user message
-                const userMessage = document.createElement('div');
-                userMessage.classList.add('message', 'user-message');
-                userMessage.textContent = messageText;
-                chatMessages.appendChild(userMessage);
-                
-                chatInput.value = '';
-                
-                // Static bot response
-                const botMessage = document.createElement('div');
-                botMessage.classList.add('message', 'bot-message');
-                botMessage.textContent = "Thank you for your message. Your query is being processed by our team.";
-                chatMessages.appendChild(botMessage);
-                
-                // Scroll to the latest message
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
+            const randomMessage = motivationMessages[Math.floor(Math.random() * motivationMessages.length)];
+            document.getElementById('motivationText').textContent = randomMessage;
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+
+            // Start live countdown
+            startCountdown(targetDate);
         }
 
-        // Enter key support for chat
-        document.getElementById('chatInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
+        function startCountdown(targetDate) {
+            const countdownInterval = setInterval(() => {
+                const now = new Date();
+                const timeDifference = targetDate.getTime() - now.getTime();
+
+                if (timeDifference <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('motivationText').textContent = "🎉 Congratulations! Your goal date has arrived!";
+                    return;
+                }
+
+                const days = Math.ceil(timeDifference / (1000 * 3600 * 24));
+                const weeks = Math.floor(days / 7);
+                const months = Math.floor(days / 30.44);
+
+                document.getElementById('remainingDays').textContent = days;
+                document.getElementById('weeks').textContent = weeks;
+                document.getElementById('months').textContent = months;
+            }, 60000); // Update every minute
+        }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
         });
-
-        // Fin Ocean Button Function
-        function diveIntoFinOcean() {
-            alert('🌊 Welcome to Fin Ocean! \n\nDive deep into advanced financial analytics, AI-powered insights, and personalized investment strategies. Your financial journey to the depths of prosperity begins now!');
-        }
-
-        // Goal Modal Functions
-        function openGoalModal() {
-            document.getElementById('goalModal').style.display = 'block';
-        }
-
-        function closeGoalModal() {
-            document.getElementById('goalModal').style.display = 'none';
-            document.getElementById('goalForm').reset();
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('goalModal');
-        }
+    </script>
+</body>
+</html>

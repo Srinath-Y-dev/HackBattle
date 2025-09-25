@@ -5,14 +5,8 @@ from flask_cors import CORS
 from langchain_openai import OpenAI
 from langchain_experimental.agents import create_pandas_dataframe_agent
 
-# --- IMPORTANT SECURITY NOTE ---
-# It is highly recommended to use environment variables for your API key.
-# 1. Set an environment variable: export OPENAI_API_KEY='your_real_api_key'
-# 2. Use the line below instead of hardcoding the key.
-# api_key = os.getenv("OPENAI_API_KEY")
 
-# For this example, we use the provided key, but replace it with your own from an environment variable.
-api_key = "YOUR_OPENAI_API_KEY" # ⚠️ Replace with your actual key
+api_key = "YOUR_OPENAI_API_KEY" 
 
 # Initialize Flask App
 app = Flask(__name__)
