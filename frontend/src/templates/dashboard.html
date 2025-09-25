@@ -6,362 +6,55 @@
     <title>FinCargo - Financial Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Basic Setup and Static Colors */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121828;
-            color: #E0E0E0;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        .header {
-            background-color: #1C243B;
-            border-radius: 8px;
-            border: 1px solid #333D5B;
-            padding: 20px 30px;
-            margin-bottom: 30px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #5D9CEC;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-            padding: 10px 15px;
-            background-color: #2A334F;
-            border-radius: 8px;
-            border: 1px solid #333D5B;
-        }
-
-        .profile-pic {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #5D9CEC;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .profile-pic i {
-            color: #121828;
-        }
-
-        /* User Selection */
-        .user-selection {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #1C243B;
-            border-radius: 8px;
-            border: 1px solid #333D5B;
-        }
-
-        .user-select {
-            padding: 10px 15px;
-            background-color: #2A334F;
-            border: 1px solid #333D5B;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            margin: 0 10px;
-        }
-
-        .user-select:focus {
-            outline: none;
-            border-color: #5D9CEC;
-        }
-
-        /* Fin Ocean Button */
-        .fin-ocean-section {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, #5D9CEC 0%, #4A89DA 100%);
-            border-radius: 15px;
-            border: 2px solid #7AB3F0;
-        }
-
-        .fin-ocean-btn {
-            padding: 20px 40px;
-            background: linear-gradient(135deg, #E9573F 0%, #D44332 100%);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 1.8rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(233, 87, 63, 0.4);
-            letter-spacing: 1px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .fin-ocean-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(233, 87, 63, 0.5);
-        }
-
-        .fin-ocean-text {
-            color: white;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-
-        /* Main Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .secondary-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr; 
-            gap: 30px;
-        }
-
-        /* Basic Card Style */
-        .card {
-            background-color: #1C243B;
-            border-radius: 8px;
-            border: 1px solid #333D5B;
-            padding: 25px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            color: white;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #333D5B;
-        }
-
-        .card-icon {
-            font-size: 1.4rem;
-            margin-right: 15px;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background-color: #5D9CEC;
-            color: #121828;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #F0F0F0;
-        }
-
-        .score-card {
-            text-align: center;
-        }
-
-        .score-value {
-            font-size: 4.5rem;
-            font-weight: bold;
-            margin: 25px 0;
-            color: #5D9CEC;
-        }
-
-        .stat-item {
-            color: white;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #2A334F;
-            border-radius: 8px;
-        }
-        .stat-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #FFFFFF;
-        }
-
-        .stat-bar {
-            height: 8px;
-            background: #333D5B;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .stat-fill {
-            height: 100%;
-            background-color: #5D9CEC;
-            border-radius: 4px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .chat-container {
-            height: 320px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #121828;
-            border-radius: 8px;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            padding: 12px 18px;
-            border-radius: 18px;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-
-        .user-message {
-            background-color: #5D9CEC;
-            color: white;
-            margin-left: auto;
-            text-align: right;
-        }
-
-        .bot-message {
-            background-color: #333D5B;
-            color: white;
-        }
-
-        .chat-input-container {
-            display: flex;
-            gap: 15px;
-        }
-
-        .chat-input {
-            flex-grow: 1;
-            padding: 12px 18px;
-            background: #2A334F;
-            border: 1px solid #333D5B;
-            border-radius: 20px;
-            color: white;
-            font-size: 1rem;
-        }
-
-        .send-btn {
-            padding: 12px 20px;
-            background-color: #5D9CEC;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-        }
-        
-        .goal-item {
-            background-color: #2A334F;
-            border: 1px solid #333D5B;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            color: white;
-        }
-
-        .goal-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #5D9CEC;
-            font-size: 1.1rem;
-        }
-
-        .goal-progress {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 12px;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: #333D5B;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: #5D9CEC;
-            border-radius: 3px;
-            transition: width 0.5s ease-in-out;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-            justify-content: center;
-        }
-
-        .action-btn {
-            padding: 12px 25px;
-            background-color: #5D9CEC;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: background-color 0.2s ease;
-        }
-        
-        .action-btn:hover {
-             background-color: #4A89DA;
-        }
-
-        .action-btn.secondary {
-            background-color: #4A5576;
-        }
-        
-        .action-btn.secondary:hover {
-            background-color: #5a6a97;
-        }
+        /* All your CSS styles remain the same */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background-color: #121828; color: #E0E0E0; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; padding: 20px 30px; margin-bottom: 30px; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2.2rem; font-weight: bold; color: #5D9CEC; }
+        .user-profile { display: flex; align-items: center; gap: 15px; color: white; padding: 10px 15px; background-color: #2A334F; border-radius: 8px; border: 1px solid #333D5B; }
+        .profile-pic { width: 50px; height: 50px; border-radius: 50%; background-color: #5D9CEC; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .profile-pic i { color: #121828; }
+        .user-selection { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; }
+        .user-select { padding: 10px 15px; background-color: #2A334F; border: 1px solid #333D5B; border-radius: 8px; color: white; font-size: 1rem; margin: 0 10px; }
+        .user-select:focus { outline: none; border-color: #5D9CEC; }
+        .fin-ocean-section { text-align: center; margin-bottom: 40px; padding: 30px; background: linear-gradient(135deg, #5D9CEC 0%, #4A89DA 100%); border-radius: 15px; border: 2px solid #7AB3F0; }
+        .fin-ocean-btn { padding: 20px 40px; background: linear-gradient(135deg, #E9573F 0%, #D44332 100%); border: none; border-radius: 50px; color: white; font-size: 1.8rem; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px 25px rgba(233, 87, 63, 0.4); letter-spacing: 1px; transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none; }
+        .fin-ocean-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(233, 87, 63, 0.5); }
+        .fin-ocean-text { color: white; font-size: 1.3rem; margin-bottom: 25px; font-weight: 500; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .secondary-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .card { background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; padding: 25px; }
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; color: white; padding-bottom: 15px; border-bottom: 1px solid #333D5B; }
+        .card-icon { font-size: 1.4rem; margin-right: 15px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #5D9CEC; color: #121828; }
+        .card-title { font-size: 1.3rem; font-weight: bold; color: #F0F0F0; }
+        .score-card { text-align: center; }
+        .score-value { font-size: 4.5rem; font-weight: bold; margin: 25px 0; color: #5D9CEC; }
+        .stat-item { color: white; margin-bottom: 20px; padding: 15px; background-color: #2A334F; border-radius: 8px; }
+        .stat-item:last-child { margin-bottom: 0; }
+        .stat-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 8px; text-transform: uppercase; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #FFFFFF; }
+        .stat-bar { height: 8px; background: #333D5B; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .stat-fill { height: 100%; background-color: #5D9CEC; border-radius: 4px; transition: width 0.5s ease-in-out; }
+        .chat-container { height: 320px; display: flex; flex-direction: column; }
+        .chat-messages { flex-grow: 1; overflow-y: auto; margin-bottom: 20px; padding: 15px; background-color: #121828; border-radius: 8px; }
+        .message { margin-bottom: 15px; padding: 12px 18px; border-radius: 18px; max-width: 80%; line-height: 1.4; }
+        .user-message { background-color: #5D9CEC; color: white; margin-left: auto; text-align: right; }
+        .bot-message { background-color: #333D5B; color: white; }
+        .chat-input-container { display: flex; gap: 15px; }
+        .chat-input { flex-grow: 1; padding: 12px 18px; background: #2A334F; border: 1px solid #333D5B; border-radius: 20px; color: white; font-size: 1rem; }
+        .send-btn { padding: 12px 20px; background-color: #5D9CEC; border: none; border-radius: 20px; color: white; font-size: 1.1rem; cursor: pointer; }
+        .goal-item { background-color: #2A334F; border: 1px solid #333D5B; border-radius: 8px; padding: 20px; margin-bottom: 15px; color: white; }
+        .goal-title { font-weight: bold; margin-bottom: 10px; color: #5D9CEC; font-size: 1.1rem; }
+        .goal-progress { font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px; }
+        .progress-bar { height: 6px; background: #333D5B; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background-color: #5D9CEC; border-radius: 3px; transition: width 0.5s ease-in-out; }
+        .action-buttons { display: flex; gap: 20px; margin-top: 30px; justify-content: center; }
+        .action-btn { padding: 12px 25px; background-color: #5D9CEC; border: none; border-radius: 25px; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: background-color 0.2s ease; }
+        .action-btn:hover { background-color: #4A89DA; }
+        .action-btn.secondary { background-color: #4A5576; }
+        .action-btn.secondary:hover { background-color: #5a6a97; }
     </style>
 </head>
 <body>
@@ -370,9 +63,7 @@
             <div class="header-content">
                 <div class="logo">FinCargo</div>
                 <div class="user-profile">
-                    <div class="profile-pic">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <div class="profile-pic"><i class="fas fa-user"></i></div>
                     <div>
                         <div style="font-weight: bold;" id="welcomeUser">Welcome back!</div>
                         <div style="opacity: 0.7; font-size: 0.9rem;">Premium Member</div>
@@ -380,7 +71,6 @@
                 </div>
             </div>
         </div>
-
         <div class="user-selection">
             <label for="userSelect" style="color: white; margin-right: 10px; font-weight: bold;">Select User:</label>
             <select id="userSelect" class="user-select">
@@ -392,89 +82,45 @@
                 <option value="Sunita Patel">Sunita Patel</option>
             </select>
         </div>
-
         <div class="fin-ocean-section">
-    <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
-    <a href="ocean.html" class="fin-ocean-btn">
-        <i class="fas fa-water"></i> Let's dive into Fin Ocean
-    </a>
-</div>
-
+            <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
+            <a href="ocean.html" class="fin-ocean-btn">
+                <i class="fas fa-water"></i> Let's dive into Fin Ocean
+            </a>
+        </div>
         <div class="dashboard-grid">
             <div class="card score-card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="card-title">Financial Score</div>
-                </div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-chart-line"></i></div><div class="card-title">Financial Score</div></div>
                 <div class="score-value" id="scoreValue">--</div>
                 <div style="opacity: 0.8;" id="scoreStatus">Select a user to view score</div>
             </div>
-
             <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-coins"></i></div>
-                    <div class="card-title">Income & Expenses</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Monthly Income</div>
-                    <div class="stat-value" id="monthlyIncome">₹0</div>
-                    <div class="stat-bar"><div class="stat-fill" id="incomeBar" style="width: 0%;"></div></div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Monthly Expenses</div>
-                    <div class="stat-value" id="monthlyExpenses">₹0</div>
-                    <div class="stat-bar"><div class="stat-fill" id="expenseBar" style="width: 0%; background-color: #E9573F;"></div></div>
-                </div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-coins"></i></div><div class="card-title">Income & Expenses</div></div>
+                <div class="stat-item"><div class="stat-label">Monthly Income</div><div class="stat-value" id="monthlyIncome">₹0</div><div class="stat-bar"><div class="stat-fill" id="incomeBar" style="width: 0%;"></div></div></div>
+                <div class="stat-item"><div class="stat-label">Monthly Expenses</div><div class="stat-value" id="monthlyExpenses">₹0</div><div class="stat-bar"><div class="stat-fill" id="expenseBar" style="width: 0%; background-color: #E9573F;"></div></div></div>
             </div>
-
             <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-piggy-bank"></i></div>
-                    <div class="card-title">Balance & Summary</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Net Balance</div>
-                    <div class="stat-value" id="netBalance">₹0</div>
-                    <div class="stat-bar"><div class="stat-fill" id="balanceBar" style="width: 0%;"></div></div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Total Transactions</div>
-                    <div class="stat-value" id="totalTransactions">0</div>
-                    <div class="stat-bar"><div class="stat-fill" style="width: 100%; background-color: #5D9CEC;"></div></div>
-                </div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-piggy-bank"></i></div><div class="card-title">Balance & Summary</div></div>
+                <div class="stat-item"><div class="stat-label">Net Balance</div><div class="stat-value" id="netBalance">₹0</div><div class="stat-bar"><div class="stat-fill" id="balanceBar" style="width: 0%;"></div></div></div>
+                <div class="stat-item"><div class="stat-label">Total Transactions</div><div class="stat-value" id="totalTransactions">0</div><div class="stat-bar"><div class="stat-fill" style="width: 100%; background-color: #5D9CEC;"></div></div></div>
             </div>
         </div>
-
         <div class="secondary-grid">
             <div class="card chatbot-section">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-robot"></i></div>
-                    <div class="card-title">Financial Assistant</div>
-                </div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-robot"></i></div><div class="card-title">Financial Assistant</div></div>
                 <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="message bot-message">Hi! I'm your financial assistant. Ask me anything about the user data!</div>
-                    </div>
+                    <div class="chat-messages" id="chatMessages"><div class="message bot-message">Hi! I'm your financial assistant. Ask me anything about the user data!</div></div>
                     <div class="chat-input-container">
                         <input type="text" class="chat-input" placeholder="E.g., Who has the highest score?" id="chatInput">
                         <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
-
             <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
-                    <div class="card-title">Spending Categories</div>
-                </div>
-                <div id="goalsList">
-                    <div class="goal-item">
-                        <div class="goal-title">📊 Select a user to view spending breakdown</div>
-                    </div>
-                </div>
+                <div class="card-header"><div class="card-icon"><i class="fas fa-bullseye"></i></div><div class="card-title">Spending Categories</div></div>
+                <div id="goalsList"><div class="goal-item"><div class="goal-title">📊 Select a user to view spending breakdown</div></div></div>
             </div>
         </div>
-
         <div class="action-buttons">
             <button class="action-btn"><i class="fas fa-calculator"></i> Recalculate Score</button>
             <button class="action-btn secondary"><i class="fas fa-file-alt"></i> Generate Report</button>
@@ -484,193 +130,113 @@
 
     <script>
         const userData = {
-            "Priya Sharma": {
-                score: 750,
-                monthlyIncome: 48000,
-                monthlyExpenses: 31800,
-                netBalance: 162000,
-                transactions: 24,
-                categories: {
-                    "Housing": 28000, "Food": 1650, "Utilities": 2399, "Shopping": 6700, "Income": 45000
-                }
-            },
-            "Rohan Verma": {
-                score: 720,
-                monthlyIncome: 110000,
-                monthlyExpenses: 78000,
-                netBalance: 320000,
-                transactions: 32,
-                categories: {
-                    "Housing": 35000, "Entertainment": 2398, "Shopping": 9500, "Transport": 13130, "Food": 3980, "Income": 110000
-                }
-            },
-            "Anjali Mehta": {
-                score: 680,
-                monthlyIncome: 5000,
-                monthlyExpenses: 8500,
-                netBalance: -35000,
-                transactions: 16,
-                categories: {
-                    "Housing": 8000, "Food": 820, "Education": 3450, "Entertainment": 5000, "Income": 5000
-                }
-            },
-            "Vikram Singh": {
-                score: 850,
-                monthlyIncome: 88333,
-                monthlyExpenses: 38350,
-                netBalance: 4996500,
-                transactions: 28,
-                categories: {
-                    "Business": 333500, "Housing": 50000, "Income": 5050000
-                }
-            },
-            "Sunita Patel": {
-                score: 650,
-                monthlyIncome: 18000,
-                monthlyExpenses: 12580,
-                netBalance: 54200,
-                transactions: 12,
-                categories: {
-                    "Housing": 5850, "Health": 4280, "Utilities": 2450, "Income": 18000
-                }
-            }
+            "Priya Sharma": { score: 750, monthlyIncome: 48000, monthlyExpenses: 31800, netBalance: 162000, transactions: 24, categories: { "Housing": 28000, "Food": 1650, "Utilities": 2399, "Shopping": 6700, "Income": 45000 } },
+            "Rohan Verma": { score: 720, monthlyIncome: 110000, monthlyExpenses: 78000, netBalance: 320000, transactions: 32, categories: { "Housing": 35000, "Entertainment": 2398, "Shopping": 9500, "Transport": 13130, "Food": 3980, "Income": 110000 } },
+            "Anjali Mehta": { score: 680, monthlyIncome: 5000, monthlyExpenses: 8500, netBalance: -35000, transactions: 16, categories: { "Housing": 8000, "Food": 820, "Education": 3450, "Entertainment": 5000, "Income": 5000 } },
+            "Vikram Singh": { score: 850, monthlyIncome: 88333, monthlyExpenses: 38350, netBalance: 4996500, transactions: 28, categories: { "Business": 333500, "Housing": 50000, "Income": 5050000 } },
+            "Sunita Patel": { score: 650, monthlyIncome: 18000, monthlyExpenses: 12580, netBalance: 54200, transactions: 12, categories: { "Housing": 5850, "Health": 4280, "Utilities": 2450, "Income": 18000 } }
         };
 
         function switchUser() {
             const userSelect = document.getElementById('userSelect');
             const selectedUser = userSelect.value;
-            
             if (selectedUser && userData[selectedUser]) {
                 const data = userData[selectedUser];
-                
                 document.getElementById('welcomeUser').textContent = `Welcome back, ${selectedUser.split(' ')[0]}!`;
                 document.getElementById('scoreValue').textContent = data.score;
-                
                 let scoreStatus = 'Poor';
                 if (data.score >= 750) scoreStatus = 'Excellent';
                 else if (data.score >= 700) scoreStatus = 'Good';
                 else if (data.score >= 650) scoreStatus = 'Fair';
                 document.getElementById('scoreStatus').textContent = scoreStatus + ' Credit';
-                
                 document.getElementById('monthlyIncome').textContent = '₹' + data.monthlyIncome.toLocaleString();
                 document.getElementById('monthlyExpenses').textContent = '₹' + data.monthlyExpenses.toLocaleString();
                 document.getElementById('netBalance').textContent = '₹' + data.netBalance.toLocaleString();
                 document.getElementById('totalTransactions').textContent = data.transactions;
-                
                 const maxIncome = 150000;
                 const maxExpense = 100000;
                 const maxBalance = 5000000;
-                
                 document.getElementById('incomeBar').style.width = Math.min(100, (data.monthlyIncome / maxIncome) * 100) + '%';
                 document.getElementById('expenseBar').style.width = Math.min(100, (data.monthlyExpenses / maxExpense) * 100) + '%';
                 document.getElementById('balanceBar').style.width = Math.max(0, Math.min(100, (data.netBalance / maxBalance) * 100)) + '%';
-                
                 updateSpendingBreakdown(data.categories);
-                updateChatOnUserSelect(selectedUser, data); // Changed function name for clarity
+                updateChatOnUserSelect(selectedUser, data);
             }
         }
 
         function updateSpendingBreakdown(categories) {
             const goalsList = document.getElementById('goalsList');
             goalsList.innerHTML = '';
-            
             const expenseCategories = Object.entries(categories).filter(([cat]) => cat !== 'Income');
             const totalSpending = expenseCategories.reduce((sum, [,amount]) => sum + amount, 0);
-            
             expenseCategories.slice(0, 3).forEach(([category, amount]) => {
                 const percentage = totalSpending > 0 ? (amount / totalSpending * 100) : 0;
-                const icons = {
-                    'Housing': '🏠', 'Food': '🍽', 'Transport': '🚗', 'Entertainment': '🎬', 'Shopping': '🛒', 'Business': '💼', 'Health': '🏥', 'Utilities': '💡', 'Education': '🎓'
-                };
-                
+                const icons = { 'Housing': '🏠', 'Food': '🍽', 'Transport': '🚗', 'Entertainment': '🎬', 'Shopping': '🛒', 'Business': '💼', 'Health': '🏥', 'Utilities': '💡', 'Education': '🎓' };
                 const goalItem = document.createElement('div');
                 goalItem.className = 'goal-item';
-                goalItem.innerHTML = `
-                    <div class="goal-title">${icons[category] || '📊'} ${category}</div>
-                    <div class="goal-progress">Amount: ₹${amount.toLocaleString()} • ${percentage.toFixed(1)}% of total</div>
-                    <div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, percentage)}%;"></div></div>
-                `;
+                goalItem.innerHTML = `<div class="goal-title">${icons[category] || '📊'} ${category}</div><div class="goal-progress">Amount: ₹${amount.toLocaleString()} • ${percentage.toFixed(1)}% of total</div><div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, percentage)}%;"></div></div>`;
                 goalsList.appendChild(goalItem);
             });
         }
 
-        // This function now ONLY updates the chat when a user is selected from the dropdown
         function updateChatOnUserSelect(userName, data) {
             const chatMessages = document.getElementById('chatMessages');
-            chatMessages.innerHTML = `
-                <div class="message bot-message">Hi ${userName.split(' ')[0]}! You are viewing their dashboard.</div>
-                <div class="message bot-message">Ask me anything about the financial data for all users, like "Who has the lowest monthly expenses?".</div>
-            `;
+            chatMessages.innerHTML = `<div class="message bot-message">Hi ${userName.split(' ')[0]}! You are viewing their dashboard.</div><div class="message bot-message">Ask me a question about them, like "What is her monthly income?".</div>`;
         }
         
-        // --- NEW: CHATBOT LOGIC ---
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.querySelector('.send-btn');
 
-        // Function to add a message to the chat window
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
             messageDiv.textContent = text;
             chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to the bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Function to handle sending a message to the backend
         async function sendMessage() {
             const userText = chatInput.value.trim();
             if (userText === "") return;
-
             addMessage(userText, 'user');
             chatInput.value = '';
 
-            // Add a temporary "thinking" message for better UX
-            addMessage("Thinking...", 'bot');
+            // MODIFICATION: Get the selected user from the dropdown
+            const selectedUser = document.getElementById('userSelect').value;
 
+            addMessage("Thinking...", 'bot');
             try {
-                // Send the question to the Flask backend
                 const response = await fetch('http://127.0.0.1:5000/ask', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ question: userText }),
+                    headers: { 'Content-Type': 'application/json' },
+                    // MODIFICATION: Send both the question and the user context
+                    body: JSON.stringify({ 
+                        question: userText,
+                        user_context: selectedUser 
+                    }),
                 });
                 
-                // Remove the "Thinking..." message
                 chatMessages.removeChild(chatMessages.lastChild);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 
                 const data = await response.json();
-                
-                // Display the bot's actual answer
                 addMessage(data.answer, 'bot');
-
             } catch (error) {
                 console.error("Error fetching from agent:", error);
-                
-                // Make sure to remove the "Thinking..." message on error too
-                if(chatMessages.lastChild && chatMessages.lastChild.textContent === "Thinking..."){
+                if(chatMessages.lastChild && chatMessages.lastChild.textContent === "Thinking...") {
                     chatMessages.removeChild(chatMessages.lastChild);
                 }
                 addMessage("Sorry, I can't connect to the server. Please ensure the Python script is running.", 'bot');
             }
         }
 
-        // Event listeners for the chat
         sendBtn.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+            if (event.key === 'Enter') sendMessage();
         });
         
         document.getElementById('userSelect').addEventListener('change', switchUser);
-
     </script>
 </body>
 </html>
