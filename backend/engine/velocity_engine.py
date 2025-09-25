@@ -25,6 +25,7 @@ def calculate_spending_hygiene(transactions_df):
     spending_df = transactions_df[transactions_df['amount'] > 0].copy()
     if spending_df.empty: return 0.5
     spending_df['smart_category'] = spending_df['description'].apply(classify_transaction)
+    print(spending_df[['description', 'smart_category']])
     discretionary_spending = spending_df[spending_df['smart_category'] == 'Discretionary Spending']['amount'].sum()
     total_spending = spending_df['amount'].sum()
     if total_spending == 0: return 0.8

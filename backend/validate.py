@@ -9,9 +9,9 @@ def run_final_validation():
     """
     try:
         df = pd.read_csv("utils/datasets.csv")
-        print("✅ Demo dataset loaded successfully.")
+        print(" Demo dataset loaded successfully.")
     except FileNotFoundError:
-        print("❌ Error: datasets.csv not found. Make sure it's in the backend/utils folder.")
+        print(" Error: datasets.csv not found. Make sure it's in the backend/utils folder.")
         return
 
     # Dynamically find all unique personas in the file
@@ -20,7 +20,7 @@ def run_final_validation():
 
     # Loop through each persona and calculate their score
     for person_name in personas:
-        print(f"--- 🚀 Running Validation for: {person_name} ---")
+        print(f"--- Running Validation for: {person_name} ---")
         
         # Filter the dataframe for the current person's transactions
         person_transactions = df[df['persona_name'] == person_name].to_dict('records')
