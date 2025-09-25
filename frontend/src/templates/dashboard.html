@@ -6,237 +6,469 @@
     <title>FinCargo - Financial Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* All your CSS styles remain the same */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Arial', sans-serif; background-color: #121828; color: #E0E0E0; min-height: 100vh; }
+        /* --- Base Styles & Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121828;
+            color: #E0E0E0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- Login Page Styles --- */
+        #login-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 24, 40, 0.8), rgba(18, 24, 40, 0.9)), url('https://placehold.co/1920x1080/1C243B/5D9CEC?text=FinCargo');
+            background-size: cover;
+        }
+        .login-container {
+            background-color: rgba(28, 36, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid #333D5B;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-out;
+        }
+        .login-container h1 {
+            color: #5D9CEC;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .login-container p {
+            text-align: center;
+            color: #A0AEC0;
+            margin-bottom: 30px;
+        }
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #2D3748;
+            border: 1px solid #4A5568;
+            border-radius: 8px;
+            color: #E0E0E0;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .login-form input:focus {
+            outline: none;
+            border-color: #5D9CEC;
+            box-shadow: 0 0 0 3px rgba(93, 156, 236, 0.3);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #5D9CEC;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .login-btn:hover {
+            background-color: #4A8ADF;
+        }
+        #login-error {
+            color: #F56565;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        /* --- Dashboard Styles --- */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .header { background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; padding: 20px 30px; margin-bottom: 30px; }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 2.2rem; font-weight: bold; color: #5D9CEC; }
-        .user-profile { display: flex; align-items: center; gap: 15px; color: white; padding: 10px 15px; background-color: #2A334F; border-radius: 8px; border: 1px solid #333D5B; }
-        .profile-pic { width: 50px; height: 50px; border-radius: 50%; background-color: #5D9CEC; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .profile-pic i { color: #121828; }
-        .user-selection { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; }
-        .user-select { padding: 10px 15px; background-color: #2A334F; border: 1px solid #333D5B; border-radius: 8px; color: white; font-size: 1rem; margin: 0 10px; }
-        .user-select:focus { outline: none; border-color: #5D9CEC; }
-        .fin-ocean-section { text-align: center; margin-bottom: 40px; padding: 30px; background: linear-gradient(135deg, #5D9CEC 0%, #4A89DA 100%); border-radius: 15px; border: 2px solid #7AB3F0; }
-        .fin-ocean-btn { padding: 20px 40px; background: linear-gradient(135deg, #E9573F 0%, #D44332 100%); border: none; border-radius: 50px; color: white; font-size: 1.8rem; font-weight: bold; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px 25px rgba(233, 87, 63, 0.4); letter-spacing: 1px; transition: transform 0.2s ease, box-shadow 0.2s ease; text-decoration: none; }
-        .fin-ocean-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(233, 87, 63, 0.5); }
-        .fin-ocean-text { color: white; font-size: 1.3rem; margin-bottom: 25px; font-weight: 500; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-        .secondary-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .user-profile { display: flex; align-items: center; gap: 15px; color: white; padding: 10px 15px; background-color: #2D3748; border-radius: 30px; border: 1px solid #4A5568; }
+        .user-profile i { font-size: 1.5rem; color: #5D9CEC; }
+        .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+        .col-span-8 { grid-column: span 8; }
+        .col-span-4 { grid-column: span 4; }
         .card { background-color: #1C243B; border-radius: 8px; border: 1px solid #333D5B; padding: 25px; }
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; color: white; padding-bottom: 15px; border-bottom: 1px solid #333D5B; }
-        .card-icon { font-size: 1.4rem; margin-right: 15px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #5D9CEC; color: #121828; }
-        .card-title { font-size: 1.3rem; font-weight: bold; color: #F0F0F0; }
-        .score-card { text-align: center; }
-        .score-value { font-size: 4.5rem; font-weight: bold; margin: 25px 0; color: #5D9CEC; }
-        .stat-item { color: white; margin-bottom: 20px; padding: 15px; background-color: #2A334F; border-radius: 8px; }
-        .stat-item:last-child { margin-bottom: 0; }
-        .stat-label { font-size: 0.9rem; opacity: 0.8; margin-bottom: 8px; text-transform: uppercase; }
-        .stat-value { font-size: 2rem; font-weight: bold; color: #FFFFFF; }
-        .stat-bar { height: 8px; background: #333D5B; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .stat-fill { height: 100%; background-color: #5D9CEC; border-radius: 4px; transition: width 0.5s ease-in-out; }
-        .chat-container { height: 320px; display: flex; flex-direction: column; }
-        .chat-messages { flex-grow: 1; overflow-y: auto; margin-bottom: 20px; padding: 15px; background-color: #121828; border-radius: 8px; }
-        .message { margin-bottom: 15px; padding: 12px 18px; border-radius: 18px; max-width: 80%; line-height: 1.4; }
-        .user-message { background-color: #5D9CEC; color: white; margin-left: auto; text-align: right; }
-        .bot-message { background-color: #333D5B; color: white; }
-        .chat-input-container { display: flex; gap: 15px; }
-        .chat-input { flex-grow: 1; padding: 12px 18px; background: #2A334F; border: 1px solid #333D5B; border-radius: 20px; color: white; font-size: 1rem; }
-        .send-btn { padding: 12px 20px; background-color: #5D9CEC; border: none; border-radius: 20px; color: white; font-size: 1.1rem; cursor: pointer; }
-        .goal-item { background-color: #2A334F; border: 1px solid #333D5B; border-radius: 8px; padding: 20px; margin-bottom: 15px; color: white; }
-        .goal-title { font-weight: bold; margin-bottom: 10px; color: #5D9CEC; font-size: 1.1rem; }
-        .goal-progress { font-size: 0.9rem; opacity: 0.8; margin-bottom: 12px; }
-        .progress-bar { height: 6px; background: #333D5B; border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background-color: #5D9CEC; border-radius: 3px; transition: width 0.5s ease-in-out; }
-        .action-buttons { display: flex; gap: 20px; margin-top: 30px; justify-content: center; }
-        .action-btn { padding: 12px 25px; background-color: #5D9CEC; border: none; border-radius: 25px; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: background-color 0.2s ease; }
-        .action-btn:hover { background-color: #4A89DA; }
-        .action-btn.secondary { background-color: #4A5576; }
-        .action-btn.secondary:hover { background-color: #5a6a97; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-size: 1.2rem; font-weight: 600; color: #FFFFFF; }
+        .icon { font-size: 1.5rem; color: #5D9CEC; }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .summary-item { text-align: center; }
+        .summary-item .value { font-size: 2rem; font-weight: bold; color: #FFFFFF; }
+        .summary-item .label { font-size: 0.9rem; color: #A0AEC0; }
+        .score-display { text-align: center; }
+        .score-circle { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#4CAF50 var(--score-percent), #2D3748 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; }
+        .score-value { font-size: 2.5rem; font-weight: bold; color: white; }
+        .goal-list { list-style: none; }
+        .goal-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .goal-item .icon-bg { width: 40px; height: 40px; background-color: #2D3748; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .goal-progress { flex-grow: 1; }
+        .progress-bar-bg { background-color: #2D3748; border-radius: 5px; height: 10px; overflow: hidden; }
+        .progress-bar-fill { background-color: #5D9CEC; height: 100%; border-radius: 5px; }
+        .transaction-list { max-height: 300px; overflow-y: auto; }
+        .transaction-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #2D3748; }
+        .chat-container { display: flex; flex-direction: column; height: 100%; }
+        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 15px; background-color: #121828; border-radius: 8px; }
+        .message { margin-bottom: 15px; padding: 10px 15px; border-radius: 12px; max-width: 80%; }
+        .user-message { background-color: #5D9CEC; color: white; align-self: flex-end; }
+        .bot-message { background-color: #2D3748; color: #E0E0E0; align-self: flex-start; }
+        .chat-input { display: flex; margin-top: 15px; }
+        #chatInput { flex-grow: 1; padding: 12px; border: 1px solid #4A5568; background-color: #2D3748; color: #E0E0E0; border-radius: 8px 0 0 8px; outline: none; }
+        #sendBtn { padding: 12px 20px; background-color: #5D9CEC; border: none; color: white; cursor: pointer; border-radius: 0 8px 8px 0; }
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #5D9CEC;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .action-button:hover { background-color: #4A8ADF; }
+        a { text-decoration: none; color: inherit; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-content">
-                <div class="logo">FinCargo</div>
-                <div class="user-profile">
-                    <div class="profile-pic"><i class="fas fa-user"></i></div>
-                    <div>
-                        <div style="font-weight: bold;" id="welcomeUser">Welcome back!</div>
-                        <div style="opacity: 0.7; font-size: 0.9rem;">Premium Member</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="user-selection">
-            <label for="userSelect" style="color: white; margin-right: 10px; font-weight: bold;">Select User:</label>
-            <select id="userSelect" class="user-select">
-                <option value="">Choose a user...</option>
-                <option value="Priya Sharma">Priya Sharma</option>
-                <option value="Rohan Verma">Rohan Verma</option>
-                <option value="Anjali Mehta">Anjali Mehta</option>
-                <option value="Vikram Singh">Vikram Singh</option>
-                <option value="Sunita Patel">Sunita Patel</option>
-            </select>
-        </div>
-        <div class="fin-ocean-section">
-            <div class="fin-ocean-text">🌊 Ready to explore your financial depths?</div>
-            <a href="ocean.html" class="fin-ocean-btn">
-                <i class="fas fa-water"></i> Let's dive into Fin Ocean
-            </a>
-        </div>
-        <div class="dashboard-grid">
-            <div class="card score-card">
-                <div class="card-header"><div class="card-icon"><i class="fas fa-chart-line"></i></div><div class="card-title">Financial Score</div></div>
-                <div class="score-value" id="scoreValue">--</div>
-                <div style="opacity: 0.8;" id="scoreStatus">Select a user to view score</div>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-icon"><i class="fas fa-coins"></i></div><div class="card-title">Income & Expenses</div></div>
-                <div class="stat-item"><div class="stat-label">Monthly Income</div><div class="stat-value" id="monthlyIncome">₹0</div><div class="stat-bar"><div class="stat-fill" id="incomeBar" style="width: 0%;"></div></div></div>
-                <div class="stat-item"><div class="stat-label">Monthly Expenses</div><div class="stat-value" id="monthlyExpenses">₹0</div><div class="stat-bar"><div class="stat-fill" id="expenseBar" style="width: 0%; background-color: #E9573F;"></div></div></div>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-icon"><i class="fas fa-piggy-bank"></i></div><div class="card-title">Balance & Summary</div></div>
-                <div class="stat-item"><div class="stat-label">Net Balance</div><div class="stat-value" id="netBalance">₹0</div><div class="stat-bar"><div class="stat-fill" id="balanceBar" style="width: 0%;"></div></div></div>
-                <div class="stat-item"><div class="stat-label">Total Transactions</div><div class="stat-value" id="totalTransactions">0</div><div class="stat-bar"><div class="stat-fill" style="width: 100%; background-color: #5D9CEC;"></div></div></div>
-            </div>
-        </div>
-        <div class="secondary-grid">
-            <div class="card chatbot-section">
-                <div class="card-header"><div class="card-icon"><i class="fas fa-robot"></i></div><div class="card-title">Financial Assistant</div></div>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages"><div class="message bot-message">Hi! I'm your financial assistant. Ask me anything about the user data!</div></div>
-                    <div class="chat-input-container">
-                        <input type="text" class="chat-input" placeholder="E.g., Who has the highest score?" id="chatInput">
-                        <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header"><div class="card-icon"><i class="fas fa-bullseye"></i></div><div class="card-title">Spending Categories</div></div>
-                <div id="goalsList"><div class="goal-item"><div class="goal-title">📊 Select a user to view spending breakdown</div></div></div>
-            </div>
-        </div>
-        <div class="action-buttons">
-            <button class="action-btn"><i class="fas fa-calculator"></i> Recalculate Score</button>
-            <button class="action-btn secondary"><i class="fas fa-file-alt"></i> Generate Report</button>
-            <a href="goal.html"><button class="action-btn"><i class="fas fa-plus"></i> My goal</button></a>
+
+    <!-- Login Section -->
+    <div id="login-section">
+        <div class="login-container">
+            <h1>FinCargo</h1>
+            <p>Your Personal Financial Command Center</p>
+            <form id="login-form" class="login-form">
+                <input type="text" id="username" placeholder="e.g., priya sharma" required>
+                <input type="password" id="password" placeholder="••••••••" required>
+                <button type="submit" class="login-btn">Login</button>
+                <p id="login-error">Invalid credentials. Please try again.</p>
+            </form>
         </div>
     </div>
 
-    <script>
-        const userData = {
-            "Priya Sharma": { score: 750, monthlyIncome: 48000, monthlyExpenses: 31800, netBalance: 162000, transactions: 24, categories: { "Housing": 28000, "Food": 1650, "Utilities": 2399, "Shopping": 6700, "Income": 45000 } },
-            "Rohan Verma": { score: 720, monthlyIncome: 110000, monthlyExpenses: 78000, netBalance: 320000, transactions: 32, categories: { "Housing": 35000, "Entertainment": 2398, "Shopping": 9500, "Transport": 13130, "Food": 3980, "Income": 110000 } },
-            "Anjali Mehta": { score: 680, monthlyIncome: 5000, monthlyExpenses: 8500, netBalance: -35000, transactions: 16, categories: { "Housing": 8000, "Food": 820, "Education": 3450, "Entertainment": 5000, "Income": 5000 } },
-            "Vikram Singh": { score: 850, monthlyIncome: 88333, monthlyExpenses: 38350, netBalance: 4996500, transactions: 28, categories: { "Business": 333500, "Housing": 50000, "Income": 5050000 } },
-            "Sunita Patel": { score: 650, monthlyIncome: 18000, monthlyExpenses: 12580, netBalance: 54200, transactions: 12, categories: { "Housing": 5850, "Health": 4280, "Utilities": 2450, "Income": 18000 } }
-        };
+    <!-- Dashboard Section (Initially Hidden) -->
+    <div id="dashboard-section" class="container" style="display: none;">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">FinCargo</div>
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <span id="userName" class="font-bold"></span>
+                    </div>
+                    <button id="logoutBtn" style="background:none; border:none; color:#F56565; font-size: 1.2rem; cursor:pointer; margin-left: 10px;" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
 
-        function switchUser() {
-            const userSelect = document.getElementById('userSelect');
-            const selectedUser = userSelect.value;
-            if (selectedUser && userData[selectedUser]) {
-                const data = userData[selectedUser];
-                document.getElementById('welcomeUser').textContent = `Welcome back, ${selectedUser.split(' ')[0]}!`;
-                document.getElementById('scoreValue').textContent = data.score;
-                let scoreStatus = 'Poor';
-                if (data.score >= 750) scoreStatus = 'Excellent';
-                else if (data.score >= 700) scoreStatus = 'Good';
-                else if (data.score >= 650) scoreStatus = 'Fair';
-                document.getElementById('scoreStatus').textContent = scoreStatus + ' Credit';
-                document.getElementById('monthlyIncome').textContent = '₹' + data.monthlyIncome.toLocaleString();
-                document.getElementById('monthlyExpenses').textContent = '₹' + data.monthlyExpenses.toLocaleString();
-                document.getElementById('netBalance').textContent = '₹' + data.netBalance.toLocaleString();
-                document.getElementById('totalTransactions').textContent = data.transactions;
-                const maxIncome = 150000;
-                const maxExpense = 100000;
-                const maxBalance = 5000000;
-                document.getElementById('incomeBar').style.width = Math.min(100, (data.monthlyIncome / maxIncome) * 100) + '%';
-                document.getElementById('expenseBar').style.width = Math.min(100, (data.monthlyExpenses / maxExpense) * 100) + '%';
-                document.getElementById('balanceBar').style.width = Math.max(0, Math.min(100, (data.netBalance / maxBalance) * 100)) + '%';
-                updateSpendingBreakdown(data.categories);
-                updateChatOnUserSelect(selectedUser, data);
-            }
-        }
+        <main class="grid">
+            <div class="col-span-8">
+                <!-- Financial Summary -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Financial Summary</h2>
+                        <i class="fas fa-wallet icon"></i>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div id="totalAssets" class="value">₹0</div>
+                            <div class="label">Total Assets</div>
+                        </div>
+                        <div class="summary-item">
+                            <div id="totalSavings" class="value">₹0</div>
+                            <div class="label">Total Savings</div>
+                        </div>
+                        <div class="summary-item">
+                            <div id="outstandingDebts" class="value">₹0</div>
+                            <div class="label">Outstanding Debts</div>
+                        </div>
+                    </div>
+                    <!-- LINK TO OCEAN.HTML -->
+                    <a href="ocean.html" class="action-button">
+                        <i class="fas fa-water"></i> Enter Fin-Ocean Experience
+                    </a>
+                </div>
 
-        function updateSpendingBreakdown(categories) {
-            const goalsList = document.getElementById('goalsList');
-            goalsList.innerHTML = '';
-            const expenseCategories = Object.entries(categories).filter(([cat]) => cat !== 'Income');
-            const totalSpending = expenseCategories.reduce((sum, [,amount]) => sum + amount, 0);
-            expenseCategories.slice(0, 3).forEach(([category, amount]) => {
-                const percentage = totalSpending > 0 ? (amount / totalSpending * 100) : 0;
-                const icons = { 'Housing': '🏠', 'Food': '🍽', 'Transport': '🚗', 'Entertainment': '🎬', 'Shopping': '🛒', 'Business': '💼', 'Health': '🏥', 'Utilities': '💡', 'Education': '🎓' };
-                const goalItem = document.createElement('div');
-                goalItem.className = 'goal-item';
-                goalItem.innerHTML = `<div class="goal-title">${icons[category] || '📊'} ${category}</div><div class="goal-progress">Amount: ₹${amount.toLocaleString()} • ${percentage.toFixed(1)}% of total</div><div class="progress-bar"><div class="progress-fill" style="width: ${Math.min(100, percentage)}%;"></div></div>`;
-                goalsList.appendChild(goalItem);
-            });
-        }
+                <!-- Goals & Transactions (in a new grid) -->
+                 <div class="grid" style="margin-top: 20px; grid-template-columns: repeat(2, 1fr);">
+                    <!-- Goals -->
+                    <a href="goal.html" class="card" style="display: block; transition: transform 0.2s ease;">
+                         <div class="card-header">
+                            <h2 class="card-title">Financial Goals</h2>
+                            <i class="fas fa-flag-checkered icon"></i>
+                        </div>
+                        <ul id="goalList" class="goal-list">
+                            <!-- Goals will be dynamically inserted here -->
+                        </ul>
+                    </a>
+                    <!-- Transactions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Transactions</h2>
+                            <i class="fas fa-exchange-alt icon"></i>
+                        </div>
+                        <div id="transactionList" class="transaction-list">
+                            <!-- Transactions will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-span-4">
+                 <!-- Financial Score -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Financial Score</h2>
+                        <i class="fas fa-tachometer-alt icon"></i>
+                    </div>
+                    <div class="score-display">
+                        <div id="scoreCircle" class="score-circle">
+                            <span id="financialScore" class="score-value">0</span>
+                        </div>
+                        <p id="scoreDescription" class="label">A measure of your financial health.</p>
+                    </div>
+                </div>
 
-        function updateChatOnUserSelect(userName, data) {
-            const chatMessages = document.getElementById('chatMessages');
-            chatMessages.innerHTML = `<div class="message bot-message">Hi ${userName.split(' ')[0]}! You are viewing their dashboard.</div><div class="message bot-message">Ask me a question about them, like "What is her monthly income?".</div>`;
+                <!-- AI Agent -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">AI Financial Agent</h2>
+                        <i class="fas fa-robot icon"></i>
+                    </div>
+                    <div class="chat-container">
+                        <div id="chatMessages" class="chat-messages">
+                            <div class="message bot-message">Hello! I'm your AI Agent. How can I help you with your finances today?</div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" id="chatInput" placeholder="Ask about your score, savings...">
+                            <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+    // --- DATASET (Embedded from CSV) ---
+    const FULL_DATASET = [
+        {"date":"2025-09-24","transaction_id":"txn_a1b2c3d4","persona_name":"Priya Sharma","description":"Zomato_Order","category":"Food","type":"debit","amount":-450},
+        {"date":"2025-09-24","transaction_id":"txn_e5f6g7h8","persona_name":"Rohan Verma","description":"Paytm_to_Friend","category":"Transfers","type":"debit","amount":-1000},
+        {"date":"2025-09-23","transaction_id":"txn_i9j0k1l2","persona_name":"Anjali Mehta","description":"College_Canteen","category":"Food","type":"debit","amount":-120},
+        {"date":"2025-09-22","transaction_id":"txn_m3n4o5p6","persona_name":"Priya Sharma","description":"Upwork_Project_Payment","category":"Income","type":"credit","amount":45000},
+        {"date":"2025-09-22","transaction_id":"txn_q7r8s9t0","persona_name":"Vikram Singh","description":"AWS_Bill","category":"Business","type":"debit","amount":-8500},
+        {"date":"2025-09-21","transaction_id":"txn_u1v2w3x4","persona_name":"Rohan Verma","description":"Myntra_Shopping","category":"Shopping","type":"debit","amount":-3200},
+        {"date":"2025-09-21","transaction_id":"txn_y5z6a7b8","persona_name":"Sunita Patel","description":"Pharmacy_Bill","category":"Health","type":"debit","amount":-780},
+        {"date":"2025-09-20","transaction_id":"txn_c9d0e1f2","persona_name":"Priya Sharma","description":"BigBasket_Groceries","category":"Housing","type":"debit","amount":-3800.5},
+        {"date":"2025-09-20","transaction_id":"txn_g3h4i5j6","persona_name":"Anjali Mehta","description":"Pocket_Money_from_Parents","category":"Income","type":"credit","amount":5000},
+        {"date":"2025-09-19","transaction_id":"txn_k7l8m9n0","persona_name":"Rohan Verma","description":"Ola_Ride_to_Office","category":"Transport","type":"debit","amount":-280},
+        {"date":"2025-09-18","transaction_id":"txn_o1p2q3r4","persona_name":"Vikram Singh","description":"Lunch_with_Investors","category":"Business","type":"debit","amount":-4200},
+        {"date":"2025-09-17","transaction_id":"txn_s5t6u7v8","persona_name":"Priya Sharma","description":"Coffee_with_Client","category":"Food","type":"debit","amount":-650},
+        {"date":"2025-09-16","transaction_id":"txn_w9x0y1z2","persona_name":"Sunita Patel","description":"Pension_Credit","category":"Income","type":"credit","amount":18000},
+        {"date":"2025-09-15","transaction_id":"txn_a3b4c5d6","persona_name":"Rohan Verma","description":"Rent_Payment","category":"Housing","type":"debit","amount":-35000},
+        {"date":"2025-09-15","transaction_id":"txn_e7f8g9h0","persona_name":"Priya Sharma","description":"Rent_Payment","category":"Housing","type":"debit","amount":-28000},
+        {"date":"2025-09-15","transaction_id":"txn_i1j2k3l4","persona_name":"Anjali Mehta","description":"Hostel_Fee","category":"Housing","type":"debit","amount":-8000},
+        {"date":"2025-09-15","transaction_id":"txn_m5n6o7p8","persona_name":"Vikram Singh","description":"Office_Rent","category":"Business","type":"debit","amount":-50000},
+        {"date":"2025-09-14","transaction_id":"txn_q9r0s1t2","persona_name":"Rohan Verma","description":"BookMyShow_Tickets","category":"Entertainment","type":"debit","amount":-1100},
+        {"date":"2025-09-12","transaction_id":"txn_u3v4w5x6","persona_name":"Rohan Verma","description":"Netflix_Subscription","category":"Entertainment","type":"debit","amount":-649},
+        {"date":"2025-09-12","transaction_id":"txn_y7z8a9b0","persona_name":"Sunita Patel","description":"Electricity_Bill","category":"Utilities","type":"debit","amount":-1250},
+        {"date":"2025-09-11","transaction_id":"txn_a2b3c4d5","persona_name":"Priya Sharma","description":"Adobe_Creative_Cloud","category":"Utilities","type":"debit","amount":-2399},
+        {"date":"2025-09-10","transaction_id":"txn_e6f7g8h9","persona_name":"Anjali Mehta","description":"Stationery_Purchase","category":"Education","type":"debit","amount":-450},
+        {"date":"2025-09-08","transaction_id":"txn_i0j1k2l3","persona_name":"Vikram Singh","description":"Salary_to_Interns","category":"Business","type":"debit","amount":-40000},
+        {"date":"2025-09-07","transaction_id":"txn_m4n5o6p7","persona_name":"Priya Sharma","description":"Graphic_Design_Asset_Purchase","category":"Shopping","type":"debit","amount":-2500},
+        {"date":"2025-09-05","transaction_id":"txn_q8r9s0t1","persona_name":"Rohan Verma","description":"Airtel_Bill","category":"Utilities","type":"debit","amount":-799},
+        {"date":"2025-09-05","transaction_id":"txn_u2v3w4x5","persona_name":"Anjali Mehta","description":"Mobile_Recharge","category":"Utilities","type":"debit","amount":-299},
+        {"date":"2025-09-04","transaction_id":"txn_y6z7a8b9","persona_name":"Sunita Patel","description":"Local_Market_Groceries","category":"Housing","type":"debit","amount":-1800},
+        {"date":"2025-09-02","transaction_id":"txn_c0d1e2f3","persona_name":"Priya Sharma","description":"Upwork_Project_Payment","category":"Income","type":"credit","amount":22000},
+        {"date":"2025-09-01","transaction_id":"txn_g4h5i6j7","persona_name":"Rohan Verma","description":"Monthly_Salary","category":"Income","type":"credit","amount":110000},
+        {"date":"2025-09-01","transaction_id":"txn_k8l9m0n1","persona_name":"Vikram Singh","description":"Self_Stipend","category":"Income","type":"credit","amount":50000},
+        {"date":"2025-08-30","transaction_id":"txn_o2p3q4r5","persona_name":"Anjali Mehta","description":"Weekend_Outing","category":"Entertainment","type":"debit","amount":-800},
+        {"date":"2025-08-28","transaction_id":"txn_s6t7u8v9","persona_name":"Priya Sharma","description":"Client_Project_Payment","category":"Income","type":"credit","amount":30000},
+        {"date":"2025-08-27","transaction_id":"txn_w0x1y2z3","persona_name":"Rohan Verma","description":"Amazon_Purchase","category":"Shopping","type":"debit","amount":-1800},
+        {"date":"2025-08-26","transaction_id":"txn_a4b5c6d7","persona_name":"Sunita Patel","description":"Donation","category":"Transfers","type":"debit","amount":-500},
+        {"date":"2025-08-25","transaction_id":"txn_e8f9g0h1","persona_name":"Rohan Verma","description":"Flight_to_Delhi","category":"Transport","type":"debit","amount":-6500},
+        {"date":"2025-08-24","transaction_id":"txn_i2j3k4l5","persona_name":"Vikram Singh","description":"Domain_Name_Renewal","category":"Business","type":"debit","amount":-1500},
+        {"date":"2025-08-22","transaction_id":"txn_m6n7o8p9","persona_name":"Priya Sharma","description":"Zomato_Order","category":"Food","type":"debit","amount":-550},
+        {"date":"2025-08-20","transaction_id":"txn_q0r1s2t3","persona_name":"Anjali Mehta","description":"Books_Purchase","category":"Education","type":"debit","amount":-1200},
+        {"date":"2025-08-18","transaction_id":"txn_u4v5w6x7","persona_name":"Rohan Verma","description":"Swiggy_Order","category":"Food","type":"debit","amount":-480},
+        {"date":"2025-08-16","transaction_id":"txn_y8z9a0b1","persona_name":"Sunita Patel","description":"Pension_Credit","category":"Income","type":"credit","amount":18000},
+        {"date":"2025-08-15","transaction_id":"txn_c2d3e4f5","persona_name":"Rohan Verma","description":"Rent_Payment","category":"Housing","type":"debit","amount":-35000},
+        {"date":"2025-08-15","transaction_id":"txn_g6h7i8j9","persona_name":"Priya Sharma","description":"Rent_Payment","category":"Housing","type":"debit","amount":-28000},
+        {"date":"2025-08-15","transaction_id":"txn_k0l1m2n3","persona_name":"Anjali Mehta","description":"Hostel_Fee","category":"Housing","type":"debit","amount":-8000},
+        {"date":"2025-08-15","transaction_id":"txn_o4p5q6r7","persona_name":"Vikram Singh","description":"Office_Rent","category":"Business","type":"debit","amount":-50000},
+        {"date":"2025-08-14","transaction_id":"txn_s8t9u0v1","persona_name":"Priya Sharma","description":"Upwork_Project_Payment","category":"Income","type":"credit","amount":65000},
+        {"date":"2025-08-12","transaction_id":"txn_w2x3y4z5","persona_name":"Rohan Verma","description":"Netflix_Subscription","category":"Entertainment","type":"debit","amount":-649},
+        {"date":"2025-08-12","transaction_id":"txn_a6b7c8d9","persona_name":"Sunita Patel","description":"Electricity_Bill","category":"Utilities","type":"debit","amount":-1150},
+        {"date":"2025-08-10","transaction_id":"txn_e0f1g2h3","persona_name":"Anjali Mehta","description":"Birthday_Party_Expense","category":"Entertainment","type":"debit","amount":-2500},
+        {"date":"2025-08-08","transaction_id":"txn_i4j5k6l7","persona_name":"Vikram Singh","description":"Seed_Funding_Round","category":"Income","type":"credit","amount":5000000},
+        {"date":"2025-08-05","transaction_id":"txn_m8n9o0p1","persona_name":"Rohan Verma","description":"Airtel_Bill","category":"Utilities","type":"debit","amount":-799},
+        {"date":"2025-08-05","transaction_id":"txn_q2r3s4t5","persona_name":"Anjali Mehta","description":"Mobile_Recharge","category":"Utilities","type":"debit","amount":-299},
+        {"date":"2025-08-04","transaction_id":"txn_u6v7w8x9","persona_name":"Sunita Patel","description":"Local_Market_Groceries","category":"Housing","type":"debit","amount":-2100},
+        {"date":"2025-08-02","transaction_id":"txn_y0z1a2b3","persona_name":"Priya Sharma","description":"Art_Supplies","category":"Shopping","type":"debit","amount":-4200},
+        {"date":"2025-08-01","transaction_id":"txn_c4d5e6f7","persona_name":"Rohan Verma","description":"Monthly_Salary","category":"Income","type":"credit","amount":110000},
+        {"date":"2025-08-01","transaction_id":"txn_g8h9i0j1","persona_name":"Vikram Singh","description":"Self_Stipend","category":"Income","type":"credit","amount":50000}
+    ];
+
+    // --- User Authentication Data ---
+    const USERS = {
+        "priya sharma": { name: "Priya Sharma" },
+        "rohan verma": { name: "Rohan Verma" },
+        "anjali mehta": { name: "Anjali Mehta" },
+        "vikram singh": { name: "Vikram Singh" },
+        "sunita patel": { name: "Sunita Patel" },
+    };
+
+    let currentUser = null;
+
+    // --- DOM Elements ---
+    const loginSection = document.getElementById('login-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const loginForm = document.getElementById('login-form');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // --- Login Logic ---
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.toLowerCase().trim();
+        const password = document.getElementById('password').value;
+        const errorEl = document.getElementById('login-error');
+
+        if (USERS[username] && password === '123456') { // Universal password for prototype
+            currentUser = USERS[username];
+            errorEl.style.display = 'none';
+            
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+            
+            initializeDashboard(currentUser.name);
+        } else {
+            errorEl.style.display = 'block';
         }
+    });
+    
+    // --- Logout Logic ---
+    logoutBtn.addEventListener('click', function() {
+        currentUser = null;
+        loginSection.style.display = 'flex';
+        dashboardSection.style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    });
+
+    // --- Dashboard Initialization ---
+    function initializeDashboard(userName) {
+        const userTransactions = FULL_DATASET.filter(tx => tx.persona_name === userName);
         
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendBtn = document.querySelector('.send-btn');
+        // --- Calculations ---
+        const totalIncome = userTransactions.filter(t => t.type === 'credit').reduce((sum, t) => sum + t.amount, 0);
+        const totalExpenses = userTransactions.filter(t => t.type === 'debit').reduce((sum, t) => sum + t.amount, 0);
+        const totalSavings = totalIncome + totalExpenses; // Since expenses are negative
+        
+        // Mock some data for a more impressive dashboard
+        const totalAssets = totalSavings * 2.5 + 50000;
+        const outstandingDebts = totalAssets * 0.1;
+        const financialScore = 500 + Math.floor((totalSavings / totalIncome) * 500);
 
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
-            messageDiv.textContent = text;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+        // --- Update UI ---
+        document.getElementById('userName').textContent = userName;
+        document.getElementById('totalAssets').textContent = `₹${Math.round(totalAssets).toLocaleString('en-IN')}`;
+        document.getElementById('totalSavings').textContent = `₹${Math.round(totalSavings).toLocaleString('en-IN')}`;
+        document.getElementById('outstandingDebts').textContent = `₹${Math.round(outstandingDebts).toLocaleString('en-IN')}`;
+        document.getElementById('financialScore').textContent = financialScore;
+        
+        const scoreCircle = document.getElementById('scoreCircle');
+        scoreCircle.style.setProperty('--score-percent', `${financialScore / 10}%`);
 
-        async function sendMessage() {
-            const userText = chatInput.value.trim();
-            if (userText === "") return;
+        // Populate recent transactions (last 5)
+        const transactionList = document.getElementById('transactionList');
+        transactionList.innerHTML = userTransactions.slice(0, 5).map(tx => {
+            const iconClass = tx.type === 'credit' ? 'fa-arrow-up text-green-500' : 'fa-arrow-down text-red-500';
+            const amountClass = tx.type === 'credit' ? 'text-green-500' : 'text-red-500';
+            return `
+                <div class="transaction-item">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas ${iconClass}"></i>
+                        <div>
+                            <p class="font-bold">${tx.description.replace(/_/g, ' ')}</p>
+                            <p class="text-sm text-gray-400">${tx.category}</p>
+                        </div>
+                    </div>
+                    <p class="${amountClass} font-bold">₹${Math.abs(tx.amount).toLocaleString('en-IN')}</p>
+                </div>
+            `;
+        }).join('');
+
+        // Mock Goals for simplicity
+        const goalList = document.getElementById('goalList');
+        goalList.innerHTML = `
+            <li class="goal-item">
+                <div class="icon-bg"><i class="fas fa-car"></i></div>
+                <div class="goal-progress">
+                    <p>New Car</p>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 60%;"></div></div>
+                </div>
+            </li>
+            <li class="goal-item">
+                <div class="icon-bg"><i class="fas fa-home"></i></div>
+                <div class="goal-progress">
+                    <p>House Down Payment</p>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 35%;"></div></div>
+                </div>
+            </li>
+        `;
+    }
+    
+    // --- Chat Logic ---
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const chatMessages = document.getElementById('chatMessages');
+
+    function addMessage(text, sender) {
+        const messageEl = document.createElement('div');
+        messageEl.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+        messageEl.textContent = text;
+        chatMessages.appendChild(messageEl);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+        const userText = chatInput.value.trim();
+        if (userText) {
             addMessage(userText, 'user');
             chatInput.value = '';
-
-            // MODIFICATION: Get the selected user from the dropdown
-            const selectedUser = document.getElementById('userSelect').value;
-
-            addMessage("Thinking...", 'bot');
-            try {
-                const response = await fetch('http://127.0.0.1:5000/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    // MODIFICATION: Send both the question and the user context
-                    body: JSON.stringify({ 
-                        question: userText,
-                        user_context: selectedUser 
-                    }),
-                });
-                
-                chatMessages.removeChild(chatMessages.lastChild);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                
-                const data = await response.json();
-                addMessage(data.answer, 'bot');
-            } catch (error) {
-                console.error("Error fetching from agent:", error);
-                if(chatMessages.lastChild && chatMessages.lastChild.textContent === "Thinking...") {
-                    chatMessages.removeChild(chatMessages.lastChild);
-                }
-                addMessage("Sorry, I can't connect to the server. Please ensure the Python script is running.", 'bot');
-            }
+            // Simple static bot response
+            setTimeout(() => {
+                addMessage("I am a prototype AI. My analytical functions are under development.", 'bot');
+            }, 500);
         }
+    }
 
-        sendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') sendMessage();
-        });
-        
-        document.getElementById('userSelect').addEventListener('change', switchUser);
-    </script>
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+</script>
 </body>
 </html>
+
