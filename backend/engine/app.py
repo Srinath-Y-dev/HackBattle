@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing
 
 # Load data and create the LangChain agent (this runs only once when the server starts)
-try:
+try: 
     df = pd.read_csv("financial_data.csv")
     llm = OpenAI(api_key=api_key, temperature=0)
     # The agent is now initialized globally for the app
